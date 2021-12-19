@@ -1,0 +1,92 @@
+﻿@model Student_Registration.Models.MultiLists
+@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <script src="~/Content/JS_2.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/Login.css" />
+    <link rel="stylesheet" href="~/Content/dropDown.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <script src="~/Content/MJs.js"></script>
+</head>
+<div class="text-center">
+    <img src="~/Icon/Frederick-University-logo.jpg" alt="Frederick University Logo" class="avatar" width="600" height="200">
+    <h1>Welcome!</h1>
+</div>
+<br />
+<br />
+@using (Ajax.BeginForm("Index", "Home", new AjaxOptions
+{
+    HttpMethod = "POST",
+    LoadingElementId = "LoadingImage",
+    OnSuccess = "onSuccess_Message",
+    OnFailure = "onFailure_Message",
+    LoadingElementDuration = 500
+
+}))
+{
+    <h5>Filter students by course: @Session["crs_name"]</h5>
+    <div>
+        <select name="courses" class="dropdown_crs">
+            <option value="All">All</option>
+            @foreach (var item in Model.Courses)
+            {
+                <option value="@item.course_name">@item.course_name</option>
+            }
+        </select>
+        <input type="submit" value="Select Course" class="drp_btn">
+        <div id="LoadingImage" style=" display: none; width: 50%; margin-left: auto;margin-right: auto; overflow: auto">Loading...</div>
+        <div id="onSuccess_Message"></div>
+        <div id="onFailure_Message"></div>
+    </div>
+}
+<br />
+
+<div class="search-container">
+    <h5><label for="search">Search for a student by name/surname/reg. number:</label></h5>
+    <input type="text" placeholder="Search.." name="search" onkeyup="searchST()" id="srch_box">
+    <button type="button" onclick="searchST()"><i class="fa fa-search"></i></button>
+</div>
+<br />
+<br />
+<div class="tab-content">
+    <table class="table" id="reqT" border="1">
+        <thead>
+            <tr>
+                <th scope="col"> Name </th>
+                <th scope="col"> Surname </th>
+                <th scope="col"> Reg. Number </th>
+                <th scope="col"> Course </th>
+                <th scope="col"> Edit </th>
+                <th scope="col"> View all subjects </th>
+            </tr>
+        </thead>
+        <tbody id="s_tbl">
+            @foreach (var item in Model.Studs)
+            {
+                <tr>
+                    <td> @item.Name </td>
+                    <td> @item.Surname </td>
+                    <td> @item.RegNum </td>
+                    <td> @item.Course </td>
+                    <td>
+                        @using (Html.BeginForm("RegisterSubjects", "RegisterSubs", FormMethod.Post))
+                        {
+                            <button name="stud" value="@item.ScId" class="btn btn-secondary"> Edit </button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("MySubjects", "MySubs", FormMethod.Post))
+                        {
+                            <button name="stud" value="@item.ScId" class="btn btn-primary"> View all </button>
+                        }
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>

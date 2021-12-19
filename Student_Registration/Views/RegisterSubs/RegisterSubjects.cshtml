@@ -1,0 +1,381 @@
+﻿@model Student_Registration.Models.MultiLists
+@{
+    ViewBag.Title = "RegisterSubjects";
+}
+
+<head>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="~/Content/MyJs.js"></script>
+    <script src="~/Content/MJs.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <link rel="stylesheet" href="~/Content/dropDown.css" />
+</head>
+
+<h2> Currently Editing: @Session["st_name"] @Session["st_surname"] (@Session["st_regNum"])</h2>
+<h2> Course: @Session["course"]</h2>
+<h2> Last Semester ECTS: @Session["LastSem_ECTS"] </h2>
+<h2> Last Semester GPA: @Session["LastSem_GPA"] </h2>
+<br />
+<hr />
+<br />
+<div class="subj_tables" style="margin-bottom: 15px;">
+    @using (Ajax.BeginForm("AppendTable", "AppendTableRG", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "rmSe",
+        OnSuccess = "jsfunction"
+
+    }))
+    {
+        <div class="dropdown">
+            <button onclick="myFunctionR()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 5px;">
+                Required
+            </button>
+            <div id="myDropdown_R" class="dropdown-menu" style="position: relative; margin-top: 5px; margin-bottom: 25px;">
+                <div class="container">
+                    <button type="button" class="btn-close req" id="reqClose" aria-label="Close" style="float: right;"></button>
+                    <h5> Total earned ECTS: @Session["ReqECTS"] </h5>
+
+                    @if (Convert.ToInt32(Session["ReqECTSleft"]) > 0)
+                    {
+                        <h5> ECTS left to complete: @Session["ReqECTSleft"] </h5>
+                    }
+
+                    @if (Convert.ToInt32(Session["ReqIncomplete"]) > 0)
+                    {
+                        <h5>(@Session["ReqIncomplete"] subject/subjects are incomplete, meaning some of the ECTS are to be added after the completion of the incomplete subjects) </h5>
+                    }
+                    <hr />
+                </div>
+
+                @if (Convert.ToInt32(Session["ReqECTS"]) >= 177)
+                {
+                    <br />
+                    <br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No more Required subjects available. Max ECTS earned.</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+                else
+                {
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="search-container" style="margin-bottom: 5px;">
+                                    <label for="search"><b>Search for a subject by code/name:</b></label> <br />
+                                    <input type="text" placeholder="Search.." name="search" onkeyup="searchSB_REQ()" id="srch_boxREQ">
+                                    <button type="button" onclick="searchSB_REQ()"><i class="fa fa-search"></i></button>
+                                </div>
+                                <table class="table" id="reqT" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"> Subject Code</th>
+                                            <th scope="col"> Subject Name </th>
+                                            <th scope="col"> ECTS </th>
+                                            <th scope="col"> Semester </th>
+                                            <th scope="col"> Add subject </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="req_tbl">
+                                        @foreach (var item in Model.Subject_List)
+                                        {
+                                            if (item.StructName == "Required")
+                                            {
+                                                <tr id="@item.Subj_Id">
+                                                    <td> @item.SubjCode </td>
+                                                    <td> @item.SubjName </td>
+                                                    <td> @item.Ects </td>
+                                                    <td> @item.Semester @item.SemYear</td>
+                                                    <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                        <tr>
+                                            <td><b>Failed or unregistered subjects</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @if (Model.Failed_NotActive.Count > 0)
+                                        {
+                                            foreach (var item in Model.Failed_NotActive)
+                                            {
+                                                if (item.StructName == "Required")
+                                                {
+                                                    <tr id="@item.Subj_Id">
+                                                        <td> @item.SubjCode </td>
+                                                        <td> @item.SubjName </td>
+                                                        <td> @item.Ects </td>
+                                                        <td> @item.Semester @item.SemYear</td>
+                                                        <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button onclick="myFunctionT()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 5px;">
+                Technical Electives
+            </button>
+            <div id="myDropdown_T" class="dropdown-menu" style="position: relative; margin-top: 5px; margin-bottom: 25px;">
+                <div class="container">
+                    <button type="button" class="btn-close" id="techClose" aria-label="Close" style="float: right; margin-right: 5px;"></button>
+                    <h5> Total earned ECTS: @Session["TechECTS"] </h5>
+
+                    @if (Convert.ToInt32(Session["TechECTSleft"]) > 0)
+                    {
+                        <h5> ECTS left to complete: @Session["TechECTSleft"] </h5>
+                    }
+
+                    @if (Convert.ToInt32(Session["TechIncomplete"]) > 0)
+                    {
+                        <h5>(@Session["TechIncomplete"] subject/subjects are incomplete, meaning some of the ECTS are to be added after the completion of the incomplete subjects) </h5>
+                    }
+                    <hr />
+                </div>
+
+                @if (Convert.ToInt32(Session["TechECTS"]) >= 48)
+                {
+
+                    <br />
+                    <br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No more Technical Electives available. Max ECTS earned.</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+                else
+                {
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="search-container" style="margin-bottom: 5px;">
+                                    <label for="search"><b>Search for a subject by code/name:</b></label> <br />
+                                    <input type="text" placeholder="Search.." name="search" onkeyup="searchSB_TECH()" id="srch_boxTECH">
+                                    <button type="button" onclick="searchSB_TECH()"><i class="fa fa-search"></i></button>
+                                </div>
+                                <table class="table" border="1" id="tele">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"> Subject Code</th>
+                                            <th scope="col"> Subject Name </th>
+                                            <th scope="col"> ECTS </th>
+                                            <th scope="col"> Semester </th>
+                                            <th scope="col"> Add subject </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="te_tbl">
+                                        @foreach (var item in Model.Subject_List)
+                                        {
+                                            if (item.StructName == "Technical Electives")
+                                            {
+                                                <tr id="@item.Subj_Id">
+                                                    <td> @item.SubjCode </td>
+                                                    <td> @item.SubjName </td>
+                                                    <td> @item.Ects </td>
+                                                    <td> @item.Semester @item.SemYear</td>
+                                                    <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr>
+                                            <td><b>Failed or unregistered subjects</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @if (Model.Failed_NotActive.Count > 0)
+                                        {
+                                            foreach (var item in Model.Failed_NotActive)
+                                            {
+                                                if (item.StructName == "Technical Electives")
+                                                {
+                                                    <tr id="@item.Subj_Id">
+                                                        <td> @item.SubjCode </td>
+                                                        <td> @item.SubjName </td>
+                                                        <td> @item.Ects </td>
+                                                        <td> @item.Semester @item.SemYear</td>
+                                                        <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button onclick="myFunctionF()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 5px;">
+                Free Electives
+            </button>
+            <div id="myDropdown_F" class="dropdown-menu" style="position: relative; margin-top: 5px;">
+                <div class="container">
+                    <button type="button" class="btn-close" id="freeClose" aria-label="Close" style="float: right; margin-right: 5px;"></button>
+                    <h5> Total earned ECTS: @Session["FreeECTS"] </h5>
+
+                    @if (Convert.ToInt32(Session["FreeECTSleft"]) > 0)
+                    {
+                        <h5> ECTS left to complete: @Session["FreeECTSleft"] </h5>
+                    }
+
+                    @if (Convert.ToInt32(Session["FreeIncomplete"]) > 0)
+                    {
+                        <h5>(@Session["FreeIncomplete"] subject/subjects are incomplete, meaning some of the ECTS are to be added after the completion of the incomplete subjects) </h5>
+                    }
+                    <hr />
+                </div>
+
+                @if (Convert.ToInt32(Session["FreeECTS"]) >= 15)
+                {
+                    <br />
+                    <br />
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No more Free Electives available. Max ECTS earned.</th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+                else
+                {
+                    <div class="container" style="position: relative; margin-bottom: 5px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="search-container" style="margin-bottom: 5px;">
+                                    <label for="search"><b>Search for a subject by code/name:</b></label> <br />
+                                    <input type="text" placeholder="Search.." name="search" onkeyup="searchSB_FREE()" id="srch_boxFREE">
+                                    <button type="button" onclick="searchSB_FREE()"><i class="fa fa-search"></i></button>
+                                </div>
+                                <table class="table" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"> Subject Code</th>
+                                            <th scope="col"> Subject Name </th>
+                                            <th scope="col"> ECTS </th>
+                                            <th scope="col"> Semester </th>
+                                            <th scope="col"> Add subject </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fre_tbl">
+                                        @foreach (var item in Model.Subject_List)
+                                        {
+                                            if (item.StructName == "Free Electives")
+                                            {
+                                                <tr id="@item.Subj_Id">
+                                                    <td> @item.SubjCode </td>
+                                                    <td> @item.SubjName </td>
+                                                    <td> @item.Ects </td>
+                                                    <td> @item.Semester @item.SemYear</td>
+                                                    <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                        <tr>
+                                            <td><b>Failed or unregistered subjects</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @if (Model.Failed_NotActive.Count > 0)
+                                        {
+                                            foreach (var item in Model.Failed_NotActive)
+                                            {
+                                                if (item.StructName == "Free Electives")
+                                                {
+                                                    <tr id="@item.Subj_Id">
+                                                        <td> @item.SubjCode </td>
+                                                        <td> @item.SubjName </td>
+                                                        <td> @item.Ects </td>
+                                                        <td> @item.Semester @item.SemYear</td>
+                                                        <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
+                                                    </tr>
+                                                }
+
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="reg_table">
+    <br />
+    <hr />
+    <br />
+    @using (Html.BeginForm("AcceptSubjects", "AcceptSubjectsN", FormMethod.Post))
+    {
+
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th scope="col"> <h5> Selected </h5> </th>
+                </tr>
+                <tr>
+                    <th scope="col"> Subject Code</th>
+                    <th scope="col"> Subject Name </th>
+                    <th scope="col"> ECTS </th>
+                    <th scope="col"> Semester Year </th>
+                    <th scope="col"> Semester </th>
+                    <th scope="col"> Remove </th>
+                </tr>
+            </thead>
+            <tbody id="selected_sub">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td> Total ECTS: <span id="tot_ects">0</span></td>
+                    <td id="msg"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td> <button id="sbj_selct" class="btn btn-primary">Confirm</button> </td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+</div>
+
+
+
+<br />
+<br />
+<br />
