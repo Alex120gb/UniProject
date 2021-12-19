@@ -18,6 +18,7 @@
 <h2> Currently Editing: @Session["st_name"] @Session["st_surname"] (@Session["st_regNum"])</h2> 
 <h2> Course: @Session["course"]</h2>
 <h2> Last Semester ECTS: @Session["LastSem_ECTS"] </h2>
+<h2> Last Semester GPA: @Session["LastSem_GPA"].ToString()</h2>
 <br />
 <hr />
 <br />
@@ -77,7 +78,6 @@
                                 <th scope="col"> Subject Name </th>
                                 <th scope="col"> ECTS </th>
                                 <th scope="col"> Semester </th>
-                                <th scope="col"> Semester Year </th>
                                 <th scope="col"> Add subject </th>
                             </tr>
                         </thead>
@@ -91,8 +91,7 @@
                                         <td> @item.SubjCode </td>
                                         <td> @item.SubjName </td>
                                         <td> @item.Ects </td>
-                                        <td> @item.Semester </td>
-                                        <td> @item.SemYear </td>
+                                        <td> @item.Semester @item.SemYear</td>
                                         <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
                                     </tr>
                                 }
@@ -150,7 +149,6 @@
                                 <th scope="col"> Subject Name </th>
                                 <th scope="col"> ECTS </th>
                                 <th scope="col"> Semester </th>
-                                <th scope="col"> Semester Year </th>
                                 <th scope="col"> Add subject </th>
                             </tr>
                         </thead>
@@ -163,8 +161,7 @@
                                         <td> @item.SubjCode </td>
                                         <td> @item.SubjName </td>
                                         <td> @item.Ects </td>
-                                        <td> @item.Semester </td>
-                                        <td> @item.SemYear </td>
+                                        <td> @item.Semester @item.SemYear</td>
                                         <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
                                     </tr>
                                 }
@@ -221,7 +218,6 @@
                                 <th scope="col"> Subject Name </th>
                                 <th scope="col"> ECTS </th>
                                 <th scope="col"> Semester </th>
-                                <th scope="col"> Semester Year </th>
                                 <th scope="col"> Add subject </th>
                             </tr>
                         </thead>
@@ -234,8 +230,7 @@
                                         <td> @item.SubjCode </td>
                                         <td> @item.SubjName </td>
                                         <td> @item.Ects </td>
-                                        <td> @item.Semester </td>
-                                        <td> @item.SemYear </td>
+                                        <td> @item.Semester @item.SemYear</td>
                                         <td> <button name="subj" id="selct-@item.Subj_Id" value="@item.Subj_Id" class="btn btn-primary">Select</button> </td>
                                     </tr>
                                 }
@@ -263,13 +258,12 @@
         <table class="table" border="1">
             <thead>
                 <tr>
-                    <th scope="col"> <h1> Required </h1> </th>
+                    <th scope="col"> <h1> Selected </h1> </th>
                 </tr>
                 <tr>
                     <th scope="col"> Subject Code</th>
                     <th scope="col"> Subject Name </th>
                     <th scope="col"> ECTS </th>
-                    <th scope="col"> Semester Year </th>
                     <th scope="col"> Semester </th>
                     <th scope="col"> Remove </th>
                 </tr>
@@ -280,7 +274,6 @@
                 <tr>
                     <td> Total ECTS: <span id="tot_ects">0</span></td>
                     <td id="msg"></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td> <button id="sbj_selct" class="btn btn-primary">Confirm</button> </td>

@@ -35,8 +35,7 @@ namespace Student_Registration.Controllers
                         "<td class='sbj_cd' >" + reader[1].ToString() + "</td>" +
                         "<td class='sbj_name' >" + reader[2].ToString() + "</td>" +
                         "<td class='ects_cnt'>" + reader[3].ToString() + "</td>" +
-                        "<td class='sem_name' >" + reader[4].ToString() + "</td>" +
-                        "<td class='sem_yr' >" + reader[5].ToString() + "</td> " +
+                        "<td>" + reader[4].ToString() + " " + reader[5].ToString() +"</td>" +
                         "<td> <button  id='rm_row'  class='btn btn-danger' onclick='removeRow()'> Remove </button></td> </tr>");
                         int ect = Convert.ToInt32(reader[3]);
                         return Content(sb.ToString(), ect.ToString());

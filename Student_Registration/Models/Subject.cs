@@ -17,5 +17,6 @@ namespace Student_Registration.Models
         public string Passed { get; set; }
         public string Approved { get; set; }
         public string StructName { get; set; }
+        public string Grade { get; set; }
     }
 }
