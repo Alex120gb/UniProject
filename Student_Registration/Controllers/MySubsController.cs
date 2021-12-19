@@ -42,8 +42,8 @@ namespace Student_Registration.Controllers
                 int My_ECTS_Free = 0;
                 int All_ECTS = 0;
                 con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT DISTINCT subject.name, subject.code, subject.ects, semester.sname, semester.yr, stud_course_sbj.passed, " +
-                    "stud_course_sbj.approved, struct_group.name FROM stud_course " +
+                MySqlCommand cmd = new MySqlCommand("SELECT DISTINCT subject.name, subject.code, subject.ects, semester.sname, " +
+                    "semester.yr, stud_course_sbj.grade, stud_course_sbj.passed, stud_course_sbj.approved, struct_group.name FROM stud_course " +
                     "INNER JOIN stud_course_sbj ON " + stud + " = stud_course_sbj.stud_course " +
                     "INNER JOIN semester ON stud_course_sbj.semester = semester.semid " +
                     "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
@@ -59,23 +59,24 @@ namespace Student_Registration.Controllers
                         SubjName = reader[0].ToString(),
                         SubjCode = reader[1].ToString(),
                         Ects = reader[2].ToString(),
+                        Grade = reader[5].ToString(),
                         Semester = reader[3].ToString(),
                         SemYear = reader[4].ToString(),
-                        Passed = reader[5].ToString(),
-                        Approved = reader[6].ToString(),
-                        StructName = reader[7].ToString()
+                        Passed = reader[6].ToString(),
+                        Approved = reader[7].ToString(),
+                        StructName = reader[8].ToString()
                     };
 
-                    if (reader[7].ToString() == "Required")
+                    if (reader[8].ToString() == "Required" && reader[6].ToString() == "P")
                     {
                         My_ECTS_Req += Convert.ToInt32(reader[2]);
                     }
 
-                    if (reader[7].ToString() == "Technical Electives")
+                    if (reader[8].ToString() == "Technical Electives" && reader[6].ToString() == "P")
                     {
                         My_ECTS_Tech += Convert.ToInt32(reader[2]);
                     }
-                    if (reader[7].ToString() == "Free Electives")
+                    if (reader[8].ToString() == "Free Electives" && reader[6].ToString() == "P")
                     {
                         My_ECTS_Free += Convert.ToInt32(reader[2]);
                     }

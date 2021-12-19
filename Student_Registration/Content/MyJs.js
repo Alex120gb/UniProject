@@ -9,8 +9,9 @@ function removeRow() {
             var id = $(this).closest("tr").find("#gback").val();
             $("#req_tbl").find('tr').each(function (i, el) {
                 var $tds = $(this).find('td');
-                if ($tds.eq(5).find("#selct-" + id)) {
-                    $($tds.eq(5).find("#selct-" + id)).prop('disabled', false);
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                    console.log(id);
                 }
             });
         }
@@ -19,8 +20,8 @@ function removeRow() {
             var id = $(this).closest("tr").find("#gback").val();
             $("#te_tbl").find('tr').each(function (i, el) {
                 var $tds = $(this).find('td');
-                if ($tds.eq(5).find("#selct-" + id)) {
-                    $($tds.eq(5).find("#selct-" + id)).prop('disabled', false);
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
                 }
             });
         }
@@ -29,8 +30,8 @@ function removeRow() {
             var id = $(this).closest("tr").find("#gback").val();
             $("#fre_tbl").find('tr').each(function (i, el) {
                 var $tds = $(this).find('td');
-                if ($tds.eq(5).find("#selct-" + id)) {
-                    $($tds.eq(5).find("#selct-" + id)).prop('disabled', false);
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
                 }
             });
         }
