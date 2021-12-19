@@ -1,0 +1,58 @@
+﻿@model Student_Registration.Models.MultiLists
+@{
+    ViewBag.Title = "AcceptSubjects";
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <script src="~/Content/MyJs.js"></script>
+    <script src="~/Content/MJs.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+<img src="~/Icon/Frederick-University-logo.jpg" alt="Frederick University Logo" class="avatar" style="display: block; margin-left: auto; margin-right: auto; width: 35%;">
+<br />
+@using (Html.BeginForm("ConfirmUpdate", "AcceptSubjectsN", FormMethod.Post))
+{
+    <table class="table" border="1" style="width: 50%; margin-left: auto; margin-right: auto;">
+        <thead>
+            <tr>
+                <th scope="col"> Subject Code</th>
+                <th scope="col"> Subject Name </th>
+                <th scope="col"> ECTS </th>
+                <th scope="col"> Semester </th>
+                <th scope="col"> Semester Year </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Subject_List)
+            {
+                <tr>
+                    <td style='display:none'> <input type="text" name="sbe" value="@item.Subj_Id"> </td>
+                    <td> @item.SubjCode </td>
+                    <td> @item.SubjName </td>
+                    <td> @item.Ects </td>
+                    <td> @item.Semester </td>
+                    <td> @item.SemYear </td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td> <bold> Total ECTS: @Session["sel_ECTS"]</bold></td>
+                <td></td>
+                <td><button id="cancel" type="button" class="btn btn-danger" value="@Convert.ToInt32(Session["st_ScId"])" onclick="Decline()">Decline</button></td>
+                <td><button id="show" class="btn btn-primary" type="submit" onclick="message()">Download</button></td>
+                <td><button class="btn btn-primary" type="button" onclick="goBack()">Done</button></td>
+            </tr>
+        </tfoot>
+    </table>
+}

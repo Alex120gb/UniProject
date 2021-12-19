@@ -1,0 +1,143 @@
+﻿@model Student_Registration.Models.MultiLists
+@{
+    ViewData["Title"] = "My Subjects";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Content/Login.css" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
+</head>
+<br />
+<h2> Currently Viewing: @Session["st_name"] @Session["st_surname"] (@Session["st_regNum"])</h2>
+<h2> Course: @Session["course"]</h2>
+<h2>Total ECTS: @Session["My_All_ECTS"] </h2>
+<br />
+<hr />
+@if (Model.Subject_List.Count == 0)
+{
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1> No registerd subjects yet! </h1>
+}
+
+else
+{
+    <br />
+    <h5><b>Requried</b></h5>
+    <div class="mysubj_tables">
+        <table class="table" border="1" style="width: 100%; height: 20%; margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <th scope="col"> Subject Code</th>
+                    <th scope="col"> Subject Name </th>
+                    <th scope="col"> ECTS </th>
+                    <th scope="col"> Semester </th>
+                    <th scope="col"> Semester Year </th>
+                    <th scope="col"> Status of Subject </th>
+                    <th scope="col"> Approved date </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Subject_List)
+                {
+                    if (item.StructName == "Required")
+                    {
+                        <tr>
+                            <td> @item.SubjCode </td>
+                            <td> @item.SubjName </td>
+                            <td> @item.Ects </td>
+                            <td> @item.Semester </td>
+                            <td> @item.SemYear </td>
+                            <td> @item.Passed </td>
+                            <td> @item.Approved </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <h5><b>Total Requried ECTS: @Session["My_ECTS_Req"]</b></h5>
+
+        <br />
+        <hr />
+        <br />
+
+
+        <h5><b>Technical Electives</b></h5>
+        <table class="table" border="1" style="width: 100%; height: 20%; margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <th scope="col"> Subject Code</th>
+                    <th scope="col"> Subject Name </th>
+                    <th scope="col"> ECTS </th>
+                    <th scope="col"> Semester </th>
+                    <th scope="col"> Semester Year </th>
+                    <th scope="col"> Status of Subject </th>
+                    <th scope="col"> Approved date </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Subject_List)
+                {
+                    if (item.StructName == "Technical Electives")
+                    {
+                        <tr>
+                            <td> @item.SubjCode </td>
+                            <td> @item.SubjName </td>
+                            <td> @item.Ects </td>
+                            <td> @item.Semester </td>
+                            <td> @item.SemYear </td>
+                            <td> @item.Passed </td>
+                            <td> @item.Approved </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <h5><b>Total Technical Electives ECTS: @Session["My_ECTS_Tech"]</b></h5>
+
+        <br />
+        <hr />
+        <br />
+
+
+        <h5><b>Free Electives</b></h5>
+        <table class="table" border="1" style="width: 100%; height: 20%; margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <th scope="col"> Subject Code</th>
+                    <th scope="col"> Subject Name </th>
+                    <th scope="col"> ECTS </th>
+                    <th scope="col"> Semester </th>
+                    <th scope="col"> Semester Year </th>
+                    <th scope="col"> Status of Subject </th>
+                    <th scope="col"> Approved date </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Subject_List)
+                {
+                    if (item.StructName == "Free Electives")
+                    {
+                        <tr>
+                            <td> @item.SubjCode </td>
+                            <td> @item.SubjName </td>
+                            <td> @item.Ects </td>
+                            <td> @item.Semester </td>
+                            <td> @item.SemYear </td>
+                            <td> @item.Passed </td>
+                            <td> @item.Approved </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <h5><b>Total Free Electives ECTS: @Session["My_ECTS_Free"]</b></h5>
+    </div>
+}
