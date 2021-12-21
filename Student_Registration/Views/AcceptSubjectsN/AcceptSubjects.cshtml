@@ -28,7 +28,6 @@
                 <th scope="col"> Subject Name </th>
                 <th scope="col"> ECTS </th>
                 <th scope="col"> Semester </th>
-                <th scope="col"> Semester Year </th>
             </tr>
         </thead>
         <tbody>
@@ -39,8 +38,7 @@
                     <td> @item.SubjCode </td>
                     <td> @item.SubjName </td>
                     <td> @item.Ects </td>
-                    <td> @item.Semester </td>
-                    <td> @item.SemYear </td>
+                    <td> @item.Semester @item.SemYear</td>
                 </tr>
             }
         </tbody>
