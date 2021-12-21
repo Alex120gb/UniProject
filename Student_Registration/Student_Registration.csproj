@@ -208,6 +208,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Courses.cs" />
+    <Compile Include="Models\Failed_NotActive.cs" />
     <Compile Include="Models\MultiLists.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Student.cs" />

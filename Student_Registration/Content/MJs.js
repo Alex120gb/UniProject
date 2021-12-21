@@ -35,8 +35,9 @@ function searchST() {
     }
 }
 
+//For Required subjects
 function searchSB_REQ() {
-    var input, filter, table, tr, td, i;
+    var input, filter, table, tr, i;
     input = document.getElementById("srch_boxREQ");
     filter = input.value.toUpperCase();
     table = document.getElementById("req_tbl");
@@ -58,9 +59,8 @@ function searchSB_REQ() {
         }
     }
 }
-
 function searchSB_TECH() {
-    var input, filter, table, tr, td, i;
+    var input, filter, table, tr, i;
     input = document.getElementById("srch_boxTECH");
     filter = input.value.toUpperCase();
     table = document.getElementById("te_tbl");
@@ -84,7 +84,7 @@ function searchSB_TECH() {
 }
 
 function searchSB_FREE() {
-    var input, filter, table, tr, td, i;
+    var input, filter, table, tr, i;
     input = document.getElementById("srch_boxFREE");
     filter = input.value.toUpperCase();
     table = document.getElementById("fre_tbl");

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MySql.Data.MySqlClient;
@@ -15,7 +15,6 @@ namespace Student_Registration.Controllers
             {
                 int Last_Sem_Tot_ECTS = 0;
                 double Last_Sem_GPA = 0.0;
-                string check = "";
                 
                 int Req_sum = 0;
                 int Req_cnt = 0;
@@ -26,8 +25,9 @@ namespace Student_Registration.Controllers
                 int Free_sum = 0;
                 int Free_cnt = 0;
                 con.Open();
+                
                 MySqlCommand cmd = new MySqlCommand("SELECT subject.ects, struct_group.name, stud_course_sbj.passed, semester.sname, " + 
-                    "semester.yr, stud_course_sbj.grade FROM stud_course " +                               
+                    "semester.yr, stud_course_sbj.grade FROM stud_course " + 
                     "INNER JOIN stud_course_sbj ON stud_course_sbj.stud_course = stud_course.scid " +
                     "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
                     "INNER JOIN semester ON stud_course_sbj.semester = semester.semid " +
@@ -181,7 +181,43 @@ namespace Student_Registration.Controllers
                     Session["course"] = reader[5].ToString();
                     Session["st_ScId"] = Convert.ToInt32(reader[6]);
                 }
-               
+
+                reader.Close();
+            }
+
+            List<Failed_NotActive> Failed_NActive = new List<Failed_NotActive>();
+            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=student_registration;port=3306;password='';SslMode=none;"))
+            {
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT DISTINCT struct_group.name, subject.name, subject.code, subject.ects, " +
+                    "semester.sname, semester.yr, subject.sbj FROM stud_course " +
+                    "INNER JOIN stud_course_sbj ON stud_course.scid = stud_course_sbj.stud_course " +
+                    "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
+                    "INNER JOIN sem_sub ON subject.sbj = sem_sub.subject " +
+                    "INNER JOIN semester ON sem_sub.semester = semester.semid " +
+                    "INNER JOIN sbj_struct_group ON subject.sbj = sbj_struct_group.subject " +
+                    "INNER JOIN struct_group ON sbj_struct_group.struct_group = struct_group.sgid " +
+                    "INNER JOIN structure ON struct_group.structure = structure.stid " +
+                    "WHERE stud_course.scid = " + stud + " AND (stud_course_sbj.passed = 'F'" +
+                    "OR stud_course_sbj.passed = '' AND stud_course_sbj.grade = ''); ", con);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Failed_NotActive g = new Failed_NotActive
+                    {
+                        StructName = reader[0].ToString(),
+                        SubjName = reader[1].ToString(),
+                        SubjCode = reader[2].ToString(),
+                        Ects = reader[3].ToString(),
+                        Semester = reader[4].ToString(),
+                        SemYear = reader[5].ToString(),
+                        Subj_Id = Convert.ToInt32(reader[6])
+                    };
+                    Failed_NActive.Add(g);
+                }
+
                 reader.Close();
             }
 
@@ -254,7 +290,8 @@ namespace Student_Registration.Controllers
 
             MultiLists ML = new MultiLists
             {
-                Subject_List = myRegsub
+                Subject_List = myRegsub,
+                Failed_NotActive = Failed_NActive
             };
             return View(ML);
         }
