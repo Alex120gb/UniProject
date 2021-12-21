@@ -18,7 +18,7 @@ for details on configuring this project to bundle and minify static web assets. 
     position: fixed;
     width: 1000px;
     height: 500px;
-    overflow: auto;
+    overflow:auto;
 }
 .dropbtn {
     background-color: #3498DB;

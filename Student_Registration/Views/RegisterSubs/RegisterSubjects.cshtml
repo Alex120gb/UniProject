@@ -1,4 +1,4 @@
-﻿@model Student_Registration.Models.MultiLists
+@model Student_Registration.Models.MultiLists
 @{
     ViewBag.Title = "RegisterSubjects";
 }
@@ -98,7 +98,7 @@
                                                 </tr>
                                             }
                                         }
-
+                                      
                                         <tr>
                                             <td><b>Failed or unregistered subjects</b></td>
                                             <td></td>
@@ -106,6 +106,7 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
+                                      
                                         @if (Model.Failed_NotActive.Count > 0)
                                         {
                                             foreach (var item in Model.Failed_NotActive)
@@ -324,7 +325,6 @@
                             </div>
                         </div>
                     </div>
-
                 }
             </div>
         </div>
@@ -353,7 +353,6 @@
                     <th scope="col"> Subject Code</th>
                     <th scope="col"> Subject Name </th>
                     <th scope="col"> ECTS </th>
-                    <th scope="col"> Semester Year </th>
                     <th scope="col"> Semester </th>
                     <th scope="col"> Remove </th>
                 </tr>
@@ -364,7 +363,6 @@
                 <tr>
                     <td> Total ECTS: <span id="tot_ects">0</span></td>
                     <td id="msg"></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td> <button id="sbj_selct" class="btn btn-primary">Confirm</button> </td>

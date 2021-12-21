@@ -1,4 +1,4 @@
-﻿@model Student_Registration.Models.MultiLists
+@model Student_Registration.Models.MultiLists
 @{
     ViewData["Title"] = "My Subjects";
 }
@@ -53,8 +53,8 @@ else
                             <td> @item.SubjCode </td>
                             <td> @item.SubjName </td>
                             <td> @item.Ects </td>
-                            <td> @item.Semester </td>
-                            <td> @item.SemYear </td>
+                            <td> @item.Semester @item.SemYear </td>
+                            <td> @item.Grade </td>
                             <td> @item.Passed </td>
                             <td> @item.Approved </td>
                         </tr>
@@ -91,8 +91,8 @@ else
                             <td> @item.SubjCode </td>
                             <td> @item.SubjName </td>
                             <td> @item.Ects </td>
-                            <td> @item.Semester </td>
-                            <td> @item.SemYear </td>
+                            <td> @item.Semester @item.SemYear </td>
+                            <td> @item.Grade </td>
                             <td> @item.Passed </td>
                             <td> @item.Approved </td>
                         </tr>
@@ -129,8 +129,8 @@ else
                             <td> @item.SubjCode </td>
                             <td> @item.SubjName </td>
                             <td> @item.Ects </td>
-                            <td> @item.Semester </td>
-                            <td> @item.SemYear </td>
+                            <td> @item.Semester @item.SemYear </td>
+                            <td> @item.Grade </td>
                             <td> @item.Passed </td>
                             <td> @item.Approved </td>
                         </tr>

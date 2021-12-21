@@ -1,4 +1,4 @@
-﻿@model Student_Registration.Models.MultiLists
+@model Student_Registration.Models.MultiLists
 @{
     ViewBag.Title = "AcceptSubjects";
     Layout = null;
@@ -28,7 +28,6 @@
                 <th scope="col"> Subject Name </th>
                 <th scope="col"> ECTS </th>
                 <th scope="col"> Semester </th>
-                <th scope="col"> Semester Year </th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +39,6 @@
                     <td> @item.SubjName </td>
                     <td> @item.Ects </td>
                     <td> @item.Semester @item.SemYear</td>
-                    <td></td>
                 </tr>
             }
         </tbody>
