@@ -11,6 +11,7 @@ namespace Student_Registration.Controllers
         public ActionResult RegisterSubjects(int stud)
         {
             // Count ECTS
+            MultiLists ML = new MultiLists();
             using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=student_registration;port=3306;password='';SslMode=none;"))
             {
                 int Last_Sem_Tot_ECTS = 0;
@@ -141,23 +142,22 @@ namespace Student_Registration.Controllers
                     }
                 }
 
-                Session["ReqECTS"] = Req_sum;
-                Session["ReqECTSleft"] = 177 - Req_sum;
-                Session["ReqIncomplete"] = Req_cnt;
+                ML.ReqECTS = Req_sum;
+                ML.ReqECTSleft = 177 - Req_sum;
+                ML.ReqIncomplete = Req_cnt;
 
-                Session["TechECTS"] = Tech_sum;
-                Session["TechECTSleft"] = 48 - Tech_sum;
-                Session["TechIncomplete"] = Tech_cnt;
+                ML.TechECTS = Tech_sum;
+                ML.TechECTSleft = 48 - Tech_sum;
+                ML.TechIncomplete = Tech_cnt;
 
-                Session["FreeECTS"] = Free_sum;
-                Session["FreeECTSleft"] = 15 - Free_sum;
-                Session["FreeIncomplete"] = Free_cnt;
+                ML.FreeECTS = Free_sum;
+                ML.FreeECTSleft = 15 - Free_sum;
+                ML.FreeIncomplete = Free_cnt;
 
-                Session["LastSem_ECTS"] = Last_Sem_Tot_ECTS;
+                ML.LastSem_ECTS = Last_Sem_Tot_ECTS;
                 double round = Math.Round(Last_Sem_GPA / Last_Sem_Tot_ECTS, 2);
-                Session["LastSem_GPA"] = round;
+                ML.LastSem_GPA = round;
                 
-                Session["check"] = check;
                 reader.Close();
             }
 
@@ -174,12 +174,10 @@ namespace Student_Registration.Controllers
 
                 while (reader.Read())
                 {
-                    Session["st_name"] = reader[1].ToString();
-                    Session["st_surname"] = reader[2].ToString();
-                    Session["st_regNum"] = reader[3].ToString();
-                    Session["st_id"] = Convert.ToInt32(reader[0]);
-                    Session["course"] = reader[5].ToString();
-                    Session["st_ScId"] = Convert.ToInt32(reader[6]);
+                    ML.St_Fullname = reader[1].ToString() + " " + reader[2].ToString();
+                    ML.St_regNum = reader[3].ToString();
+                    ML.Course = reader[5].ToString();
+                    ML.St_ScId = Convert.ToInt32(reader[6]);
                 }
 
                 reader.Close();
@@ -190,7 +188,7 @@ namespace Student_Registration.Controllers
             {
                 con.Open();
                 MySqlCommand cmd = new MySqlCommand("SELECT DISTINCT struct_group.name, subject.name, subject.code, subject.ects, " +
-                    "semester.sname, semester.yr, subject.sbj FROM stud_course " +
+                    "semester.sname, semester.yr, subject.sbj, stud_course_sbj.passed FROM stud_course " +
                     "INNER JOIN stud_course_sbj ON stud_course.scid = stud_course_sbj.stud_course " +
                     "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
                     "INNER JOIN sem_sub ON subject.sbj = sem_sub.subject " +
@@ -205,17 +203,39 @@ namespace Student_Registration.Controllers
 
                 while (reader.Read())
                 {
-                    Failed_NotActive g = new Failed_NotActive
+                    if (reader[7].ToString() == "F")
                     {
-                        StructName = reader[0].ToString(),
-                        SubjName = reader[1].ToString(),
-                        SubjCode = reader[2].ToString(),
-                        Ects = reader[3].ToString(),
-                        Semester = reader[4].ToString(),
-                        SemYear = reader[5].ToString(),
-                        Subj_Id = Convert.ToInt32(reader[6])
-                    };
-                    Failed_NActive.Add(g);
+                        Failed_NotActive g = new Failed_NotActive
+                        {
+                            StructName = reader[0].ToString(),
+                            SubjName = reader[1].ToString(),
+                            SubjCode = reader[2].ToString(),
+                            Ects = reader[3].ToString(),
+                            Semester = reader[4].ToString(),
+                            SemYear = reader[5].ToString(),
+                            Subj_Id = Convert.ToInt32(reader[6]),
+                            Passed = "F"
+                        };
+
+                        Failed_NActive.Add(g);
+                    }
+
+                    else
+                    {
+                        Failed_NotActive g = new Failed_NotActive
+                        {
+                            StructName = reader[0].ToString(),
+                            SubjName = reader[1].ToString(),
+                            SubjCode = reader[2].ToString(),
+                            Ects = reader[3].ToString(),
+                            Semester = reader[4].ToString(),
+                            SemYear = reader[5].ToString(),
+                            Subj_Id = Convert.ToInt32(reader[6]),
+                            Passed = "N/A"
+                        };
+
+                        Failed_NActive.Add(g);
+                    }
                 }
 
                 reader.Close();
@@ -288,11 +308,9 @@ namespace Student_Registration.Controllers
                 reader.Close();
             }
 
-            MultiLists ML = new MultiLists
-            {
-                Subject_List = myRegsub,
-                Failed_NotActive = Failed_NActive
-            };
+            ML.Subject_List = myRegsub;
+            ML.Failed_NotActive = Failed_NActive;
+
             return View(ML);
         }
     }

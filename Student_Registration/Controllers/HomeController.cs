@@ -10,17 +10,11 @@ namespace Student_Registration.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult LogIn()
-        {
-            Session["name"] = "";
-            Session["Id"] = 0;
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Index(string courses)
         {
             List<Student> stud = new List<Student>();
+            MultiLists ml = new MultiLists();
             using (MySqlConnection con = new MySqlConnection("server=localhost; user=root; database=student_registration; port=3306;password=''; SslMode=none;"))
             {
                 con.Open();
@@ -33,7 +27,7 @@ namespace Student_Registration.Controllers
                 {
                     if (courses != null)
                     {
-                        Session["crs_name"] = courses;
+                        ml.Crs_name = courses;
                         if (courses == reader[5].ToString())
                         {
                             Student st = new Student
@@ -81,13 +75,11 @@ namespace Student_Registration.Controllers
                     crs.Add(cr);
                 }
             }
-            MultiLists ML = new MultiLists
-            {
-                Courses = crs,
-                Studs = stud
-            };
+            
+            ml.Courses = crs;
+            ml.Studs = stud;
 
-            return View(ML);
+            return View(ml);
         }
 
         public ActionResult Index()
@@ -113,7 +105,6 @@ namespace Student_Registration.Controllers
                         Course = reader[5].ToString()
                     };
 
-                    Session["st_cr_id"] = Convert.ToInt32(reader[6]);
                     stud.Add(st);
 
                 }

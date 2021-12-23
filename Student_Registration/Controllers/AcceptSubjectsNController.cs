@@ -11,7 +11,7 @@ namespace Student_Registration.Controllers
     public class AcceptSubjectsNController : Controller
     {
         [HttpPost]
-        public ActionResult AcceptSubjects(List<int> subjE)
+        public ActionResult AcceptSubjects(List<int> subjE, MultiLists ScId)
         {
 
             List<Subject> subs = new List<Subject>();
@@ -19,7 +19,7 @@ namespace Student_Registration.Controllers
             using (MySqlConnection con = new MySqlConnection("server=localhost; user=root; database=student_registration; port=3306;password=''; SslMode=none;"))
             {
                 con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT subject.sbj, subject.code, subject.name, subject.ects, semester.sname, semester.yr, semester.semid FROM subject " +
+                MySqlCommand cmd = new MySqlCommand("SELECT subject.sbj, subject.code, subject.name, subject.ects, semester.sname, semester.yr FROM subject " +
                     "INNER JOIN sem_sub ON subject.sbj = sem_sub.subject " +
                     "INNER JOIN semester ON sem_sub.semester = semester.semid;", con);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -43,7 +43,6 @@ namespace Student_Registration.Controllers
 
                             subs.Add(sbjct);
                             ects_cnt += Convert.ToInt32(reader[3]);
-                            Session["sm_id"] = Convert.ToInt32(reader[6]);
                         }
                     }
                 }
@@ -52,9 +51,10 @@ namespace Student_Registration.Controllers
 
             MultiLists ML = new MultiLists
             {
-                Subject_List = subs
+                Subject_List = subs,
+                Sel_ECTS = ects_cnt,
+                St_ScId = ScId.St_ScId
             };
-            Session["sel_ECTS"] = ects_cnt;
             return View(ML);
         }
 
@@ -65,7 +65,7 @@ namespace Student_Registration.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConfirmUpdate(List<int> sbe)
+        public ActionResult ConfirmUpdate(List<int> sbe, MultiLists ScId)
         {
             List<Subject> excel_subjects = new List<Subject>();
 
@@ -110,7 +110,7 @@ namespace Student_Registration.Controllers
                 MySqlCommand cmd = new MySqlCommand("SELECT student.stid, student.name, student.surname, student.regNum, course.name FROM stud_course " +
                     "INNER JOIN student ON student.stid = stud_course.student " +
                     "INNER JOIN course ON stud_course.course = course.crid " +
-                    "WHERE stud_course.scid = " + Session["st_ScId"] + "; ", con);
+                    "WHERE stud_course.scid = " + ScId.St_ScId + "; ", con);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
 

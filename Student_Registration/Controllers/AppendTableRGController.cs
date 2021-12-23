@@ -28,14 +28,13 @@ namespace Student_Registration.Controllers
                 {
                     if (subj == Convert.ToInt32(reader["sbj"]))
                     {
-                        Session["ects_cnt"] = Convert.ToInt32(reader[3]) + Convert.ToInt32(Session["ects_cnt"]);
                         sb.Append("<tr> " +
                         "<td style='display:none' > <input type='text' id='strct_name' value='" + reader[6].ToString() + "'> </td>" +
                         "<td style='display:none' > <input type='text' name='subjE' id='gback' value='" + Convert.ToInt32(reader[0]) + "'> </td>" +
-                        "<td class='sbj_cd' >" + reader[1].ToString() + "</td>" +
-                        "<td class='sbj_name' >" + reader[2].ToString() + "</td>" +
-                        "<td class='ects_cnt'>" + reader[3].ToString() + "</td>" +
-                        "<td>" + reader[4].ToString() + " " + reader[5].ToString() +"</td>" +
+                        "<td class='sbj_cd' style='vertical-align: middle;'>" + reader[1].ToString() + "</td>" +
+                        "<td class='sbj_name' style='vertical-align: middle;'>" + reader[2].ToString() + "</td>" +
+                        "<td class='ects_cnt' style='vertical-align: middle;'>" + reader[3].ToString() + "</td>" +
+                        "<td style='vertical-align: middle;'>" + reader[4].ToString() + " " + reader[5].ToString() +"</td>" +
                         "<td> <button  id='rm_row'  class='btn btn-danger' onclick='removeRow()'> Remove </button></td> </tr>");
                         int ect = Convert.ToInt32(reader[3]);
                         return Content(sb.ToString(), ect.ToString());

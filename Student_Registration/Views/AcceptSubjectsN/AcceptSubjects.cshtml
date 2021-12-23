@@ -39,15 +39,17 @@
                     <td> @item.SubjName </td>
                     <td> @item.Ects </td>
                     <td> @item.Semester @item.SemYear</td>
+                    <td></td>
                 </tr>
             }
         </tbody>
 
         <tfoot>
             <tr>
-                <td> <bold> Total ECTS: @Session["sel_ECTS"]</bold></td>
+                <td> <bold> Total ECTS: @Model.Sel_ECTS</bold></td>
                 <td></td>
-                <td><button id="cancel" type="button" class="btn btn-danger" value="@Convert.ToInt32(Session["st_ScId"])" onclick="Decline()">Decline</button></td>
+                <td><button id="cancel" type="button" class="btn btn-danger" value="@Model.St_ScId" onclick="Decline()">Decline</button></td>
+                @Html.HiddenFor(m => m.St_ScId)
                 <td><button id="show" class="btn btn-primary" type="submit" onclick="message()">Download</button></td>
                 <td><button class="btn btn-primary" type="button" onclick="goBack()">Done</button></td>
             </tr>
