@@ -2,6 +2,13 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 /* Drop down tables style */
+.caretup {
+    transform: rotate(180deg);
+}
+
+.btn:active {
+    color: steelblue;
+}
 .center{
     vertical-align: middle;
 }

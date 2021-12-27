@@ -94,30 +94,124 @@ function jsfunction(ajaxContext) {
 
 /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
-function myFunctionR() {
+function myFunctionR(btn) {
     document.getElementById("myDropdown_R").classList.toggle("show");
+    var property = document.getElementById(btn);
+    var vl = parseInt(property.value);
+    
+    if (vl == 0) {
+        document.querySelector("#ImgReq").style.transform = "rotate(0deg)";
+        property.style.backgroundColor = "#6c757d";
+        property.style.borderColor = "#6c757d";
+        property.value = "1";
+    }
+
+    if (vl == 1) {
+        document.querySelector("#ImgReq").style.transform = "rotate(180deg)";
+        property.style.backgroundColor = "#0d6efd";
+        property.style.borderColor = "#0d6efd";
+        property.value = "0";
+    }
 }
 
-function myFunctionT() {
+function myFunctionT(btn) {
     document.getElementById("myDropdown_T").classList.toggle("show");
+
+    var property = document.getElementById(btn);
+    var vl = property.value;
+
+    if (vl == 0) {
+        document.querySelector("#ImgTech").style.transform = "rotate(0deg)";
+        property.style.backgroundColor = "#6c757d";
+        property.style.borderColor = "#6c757d";
+        property.value = 1;
+    }
+
+    if (vl == 1) {
+        document.querySelector("#ImgTech").style.transform = "rotate(180deg)";
+        property.style.backgroundColor = "#0d6efd";
+        property.style.borderColor = "#0d6efd";
+        property.value = 0;
+    }
 }
 
-function myFunctionF() {
+function myFunctionF(btn) {
     document.getElementById("myDropdown_F").classList.toggle("show");
+
+    var property = document.getElementById(btn);
+    var vl = property.value;
+
+    if (vl == 0) {
+        document.querySelector("#ImgFree").style.transform = "rotate(0deg)";
+        property.style.backgroundColor = "#6c757d";
+        property.style.borderColor = "#6c757d";
+        property.value = 1;
+    }
+
+    if (vl == 1) {
+        document.querySelector("#ImgFree").style.transform = "rotate(180deg)";
+        property.style.backgroundColor = "#0d6efd";
+        property.style.borderColor = "#0d6efd";
+        property.value = 0;
+    }
 }
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
     if (event.target.matches('#reqClose')) {
         document.getElementById("myDropdown_R").classList.toggle("show");
+        var btn = document.getElementById("dropdownMenuButton1");
+        var value = btn.value;
+        if (value == 0) {
+            document.querySelector("#ImgReq").style.transform = "rotate(0deg)";
+            btn.style.backgroundColor = "#6c757d";
+            btn.style.borderColor = "#6c757d";
+            btn.value = 1;
+        }
+        if (value == 1) {
+            document.querySelector("#ImgReq").style.transform = "rotate(180deg)";
+            btn.style.backgroundColor = "#0d6efd";
+            btn.style.borderColor = "#0d6efd";
+            btn.value = 0;
+        }
     }
 
     if (event.target.matches('#techClose')) {
         document.getElementById("myDropdown_T").classList.toggle("show");
+
+        var btn = document.getElementById("dropdownMenuButton2");
+        var value = btn.value;
+        if (value == 0) {
+            document.querySelector("#ImgTech").style.transform = "rotate(0deg)";
+            btn.style.backgroundColor = "#6c757d";
+            btn.style.borderColor = "#6c757d";
+            btn.value = 1;
+        }
+        if (value == 1) {
+            document.querySelector("#ImgTech").style.transform = "rotate(180deg)";
+            btn.style.backgroundColor = "#0d6efd";
+            btn.style.borderColor = "#0d6efd";
+            btn.value = 0;
+        }
     }
 
     if (event.target.matches('#freeClose')) {
         document.getElementById("myDropdown_F").classList.toggle("show");
+
+        var btn = document.getElementById("dropdownMenuButton3");
+        var value = parseInt(btn.value);
+        if (value == 0) {
+            document.querySelector("#ImgFree").style.transform = "rotate(0deg)";
+            btn.style.backgroundColor = "#6c757d";
+            btn.style.borderColor = "#6c757d";
+            btn.value = "1";
+        }
+        if (value == 1) {
+            document.querySelector("#ImgFree").style.transform = "rotate(180deg)";
+            btn.style.backgroundColor = "#0d6efd";
+            btn.style.borderColor = "#0d6efd";
+            btn.value = "0";
+        }
     }
 }
 
