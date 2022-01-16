@@ -20,7 +20,8 @@
 <h2> Currently Editing: @Model.St_Fullname (@Model.St_regNum) </h2>
 <h2> Course: @Model.Course </h2>
 <h2> Last Semester ECTS: @Model.LastSem_ECTS </h2>
-<h2> Last Semester GPA: @Model.LastSem_GPA </h2>
+<h2> Last Semester GPA: <span id="lastGpa">@Model.LastSem_GPA</span></h2>
+<h5 id="GPAWarning"></h5>
 <br />
 <hr />
 <br />
@@ -448,12 +449,9 @@
             {
                 <br />
                 <hr style="position: relative;" />
-                <br />
+                <h2> Selected subjects </h2> 
                 <table class="table" border="1">
                     <thead>
-                        <tr>
-                            <th scope="col"> <h5> Selected </h5> </th>
-                        </tr>
                         <tr>
                             <th scope="col"> Subject Code</th>
                             <th scope="col"> Subject Name </th>
@@ -464,17 +462,15 @@
                     </thead>
                     <tbody id="selected_sub" class="center">
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td> Total ECTS: <span id="tot_ects">0</span></td>
-                            <td id="msg"></td>
-                            <td></td>
-                            <td></td>
-                            @Html.HiddenFor(m => m.St_ScId)
-                            <td> <button id="sbj_selct" class="btn btn-primary">Confirm</button> </td>
-                        </tr>
-                    </tfoot>
                 </table>
+                <div style="float: left;">
+                    <p id="messages"> <b>Total ECTS: <span id="tot_ects">0</span></b> <span id="seper"></span><span id="msg"></span></p>
+                </div>
+                <div style="float: right">
+                    <button id="sbj_rm_all" class="btn btn-danger me-2" style="float: left" type="button" onclick="RmAll()">Remove all</button>
+                    @Html.HiddenFor(m => m.St_ScId)
+                    <button id="sbj_selct" class="btn btn-primary">Confirm</button>
+                </div>
             }
         </div>
     </div>

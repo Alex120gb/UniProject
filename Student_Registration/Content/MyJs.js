@@ -1,4 +1,53 @@
-﻿//Remove unwanted rows from selected_sub table
+﻿//Remove all content in selected_sub table
+function RmAll() {
+   
+    $('#selected_sub #gback').each(function () {
+
+        var str_name = $(this).closest("tr").find("#strct_name").val();
+
+        if (str_name == "Required") {
+            var id = $(this).closest("tr").find("#gback").val();
+            $("#req_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                    console.log(id);
+                }
+            });
+        }
+
+        if (str_name == "Technical Electives") {
+            var id = $(this).closest("tr").find("#gback").val();
+            $("#te_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+        }
+
+        if (str_name == "Free Electives") {
+            var id = $(this).closest("tr").find("#gback").val();
+            $("#fre_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+        }
+    });
+
+    $("#selected_sub").empty();
+    $("#tot_ects").text(0);
+    $("#msg").text("");
+    $("#seper").text("");
+
+    if ($("#selected_sub").children().length <= 0) {
+        $("#sbj_selct").prop('disabled', true);
+    }
+}
+
+//Remove unwanted rows from selected_sub table
 function removeRow() {
     var val = parseInt($("#tot_ects").html());
     $("#selected_sub").on("click", "#rm_row", function () {
@@ -42,19 +91,33 @@ function removeRow() {
 
         if (val <= 30) {
             $("#msg").text("");
+            $("#seper").text("");
             $("#sbj_selct").prop('disabled', false);
         }
 
         if (val <= 0) {
             $("#msg").text("");
+            $("#seper").text("");
             $("#sbj_selct").prop('disabled', true);
         }
     });
 }
 
-//Block "sbj_selct" button if table empty
+//Block "sbj_selct" button if table empty on page load & GPA message warning.
 document.addEventListener('DOMContentLoaded', function (event) {
     //the event occurred
+    
+    if ($("#lastGpa").text() <= 7.5 && $("#lastGpa").text() >= 5) {
+        $("#sbj_selct").prop('disabled', true);
+        $("#GPAWarning").text("Warning: Last semester GPA is less than 7.5! Recommended ECTS for current semester is 25!");
+        $("#GPAWarning").css('color', 'red');
+    }
+
+    if ($("#lastGpa").text() < 5) {
+        $("#sbj_selct").prop('disabled', true);
+        $("#GPAWarning").text("Warning: Last semester GPA is less than 5! Recommended ECTS for current semester is 20!");
+        $("#GPAWarning").css('color', 'red');
+    }
 
     if ($("#selected_sub").children().length <= 0) {
         $("#sbj_selct").prop('disabled', true);
@@ -72,6 +135,7 @@ function jsfunction(ajaxContext) {
     //ajaxContext contains the responseText
     $("#selected_sub").append(ajaxContext);
 
+    $("#sbj_selct").prop('disabled', false);
 
     var count = 0;
     $('#selected_sub .ects_cnt').each(function () {
@@ -81,13 +145,26 @@ function jsfunction(ajaxContext) {
     $("#tot_ects").text(count);
 
     if (count > 30) {
-        $("#msg").text("ECTS limit reached. Please remove one or more subjects.")
-        $("#sbj_selct").prop('disabled', true);
+        $("#seper").text(" - ");
+        $("#msg").text("Warning: Exceeded 30 ECTS!");
+        $("#messages").children('#msg').css('color', 'red');
     }
 
     if (count <= 30) {
+        $("#seper").text("");
         $("#msg").text("");
-        $("#sbj_selct").prop('disabled', false);
+    }
+
+    if ($("#lastGpa").text() <= 7.5 && $("#lastGpa").text() >= 5 && count >= 25) {
+        $("#seper").text(" - ");
+        $("#msg").text("Warning: Exceeded 25 ECTS!");
+        $("#messages").children('#msg').css('color', 'red');
+    }
+
+    if ($("#lastGpa").text() < 5 && count >= 20) {
+        $("#seper").text(" - ");
+        $("#msg").text("Warning: Exceeded 20 ECTS!");
+        $("#messages").children('#msg').css('color', 'red');
     }
 }
 

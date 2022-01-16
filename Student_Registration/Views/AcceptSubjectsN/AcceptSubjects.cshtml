@@ -21,38 +21,39 @@
 <br />
 @using (Html.BeginForm("ConfirmUpdate", "AcceptSubjectsN", FormMethod.Post))
 {
-    <table class="table" border="1" style="width: 50%; margin-left: auto; margin-right: auto;">
-        <thead>
-            <tr>
-                <th scope="col"> Subject Code</th>
-                <th scope="col"> Subject Name </th>
-                <th scope="col"> ECTS </th>
-                <th scope="col"> Semester </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Subject_List)
-            {
+    <div class="container" style="width: 50%; margin-left: auto; margin-right: auto;">
+        <table class="table" border="1">
+            <thead>
                 <tr>
-                    <td style='display:none'> <input type="text" name="sbe" value="@item.Subj_Id"> </td>
-                    <td> @item.SubjCode </td>
-                    <td> @item.SubjName </td>
-                    <td> @item.Ects </td>
-                    <td> @item.Semester @item.SemYear</td>
-                    <td></td>
+                    <th scope="col"> Subject Code</th>
+                    <th scope="col"> Subject Name </th>
+                    <th scope="col"> ECTS </th>
+                    <th scope="col"> Semester </th>
                 </tr>
-            }
-        </tbody>
-
-        <tfoot>
-            <tr>
-                <td> <bold> Total ECTS: @Model.Sel_ECTS</bold></td>
-                <td></td>
-                <td><button id="cancel" type="button" class="btn btn-danger" value="@Model.St_ScId" onclick="Decline()">Decline</button></td>
-                @Html.HiddenFor(m => m.St_ScId)
-                <td><button id="show" class="btn btn-primary" type="submit" onclick="message()">Download</button></td>
-                <td><button class="btn btn-primary" type="button" onclick="goBack()">Done</button></td>
-            </tr>
-        </tfoot>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Subject_List)
+                {
+                    <tr>
+                        <td style='display:none'> <input type="text" name="sbe" value="@item.Subj_Id"> </td>
+                        <td> @item.SubjCode </td>
+                        <td> @item.SubjName </td>
+                        <td> @item.Ects </td>
+                        <td> @item.Semester @item.SemYear</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div style="float: left;">
+            <p> <b>Total ECTS: @Model.Sel_ECTS</b> </p>
+        </div>
+        <div style="float: right">
+            <button id="cancel" type="button" class="btn btn-danger me-2" value="@Model.St_ScId" onclick="Decline()" style="float: left">Decline</button>
+            @Html.HiddenFor(m => m.St_ScId)
+            <button id="show" class="btn btn-primary me-2" type="submit" onclick="message()">Download</button>
+            <button class="btn btn-primary" type="button" onclick="goBack()" style="float: right">Done</button>
+        </div>
+    </div>
+    
 }

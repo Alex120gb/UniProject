@@ -39,9 +39,9 @@ namespace Student_Registration.Controllers
 
                 while (reader.Read())
                 {
-                    if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 2 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 4)
+                    if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 1 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 5)
                     {
-                        if (reader[3].ToString() == "Fall" && Convert.ToInt32(reader[4]) == 2019 /*Convert.ToInt32(DateTime.Now.Year.ToString()) - 1*/ && reader[2].ToString() == "P")
+                        if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == Convert.ToInt32(DateTime.Now.Year.ToString()) - 1 && reader[2].ToString() == "P")
                         {
                             Last_Sem_Tot_ECTS += Convert.ToInt32(reader[0]);
                             
@@ -70,11 +70,16 @@ namespace Student_Registration.Controllers
                                 Last_Sem_GPA += Convert.ToInt32(reader[0]) * 5;
                             }
                         }
+
+                        if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == Convert.ToInt32(DateTime.Now.Year.ToString()) - 1 && reader[2].ToString() == "F")
+                        {
+                            Last_Sem_Tot_ECTS += Convert.ToInt32(reader[0]);
+                        }
                     }
                     
-                    if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 7 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 12)
+                    if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 6 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 12)
                     {
-                        if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == 2020 /*Convert.ToInt32(DateTime.Now.Year.ToString())*/ && reader[2].ToString() == "P")
+                        if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == Convert.ToInt32(DateTime.Now.Year.ToString()) && reader[2].ToString() == "P")
                         {
                             Last_Sem_Tot_ECTS += Convert.ToInt32(reader[0]);
                             
@@ -102,6 +107,11 @@ namespace Student_Registration.Controllers
                             {
                                 Last_Sem_GPA += Convert.ToInt32(reader[0]) * 5;
                             }
+                        }
+
+                        if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == Convert.ToInt32(DateTime.Now.Year.ToString()) && reader[2].ToString() == "F")
+                        {
+                            Last_Sem_Tot_ECTS += Convert.ToInt32(reader[0]);
                         }
                     }
 
@@ -255,7 +265,8 @@ namespace Student_Registration.Controllers
                     "INNER JOIN subject ON sbj_struct_group.subject = subject.sbj " +
                     "INNER JOIN sem_sub ON subject.sbj = sem_sub.subject " +
                     "INNER JOIN semester ON sem_sub.semester = semester.semid " +
-                    "WHERE stud_course.scid = " + stud + " AND NOT subject.sbj = ANY (SELECT DISTINCT subject.sbj FROM stud_course " +
+                    "WHERE stud_course.scid = " + stud + " AND structure.str_name = 'Computer Science 2017' " + 
+                    "AND NOT subject.sbj = ANY (SELECT DISTINCT subject.sbj FROM stud_course " +
                     "INNER JOIN stud_course_sbj ON stud_course.scid = stud_course_sbj.stud_course " +
                     "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
                     "WHERE stud_course.scid = " + stud + " AND stud_course_sbj.passed = 'P' OR stud_course_sbj.grade = 'N/A' OR stud_course_sbj.passed = 'I'); ", con);
@@ -268,7 +279,7 @@ namespace Student_Registration.Controllers
                 {
                     if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 1 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 5)
                     {
-                        if (reader[4].ToString() == "Spring" && Convert.ToInt32(reader[5]) == 2020 /*Convert.ToInt32(DateTime.Now.Year.ToString())*/)
+                        if (reader[4].ToString() == "Spring" && Convert.ToInt32(reader[5]) == Convert.ToInt32(DateTime.Now.Year.ToString()))
                         {
                             Subject rgsb = new Subject
                             {
@@ -287,7 +298,7 @@ namespace Student_Registration.Controllers
 
                     else if (Convert.ToInt32(DateTime.Now.Month.ToString()) <= 6 || Convert.ToInt32(DateTime.Now.Month.ToString()) >= 12)
                     {
-                        if (reader[4].ToString() == "Fall" && Convert.ToInt32(reader[5]) == 2020 /*Convert.ToInt32(DateTime.Now.Year.ToString())*/)
+                        if (reader[4].ToString() == "Fall" && Convert.ToInt32(reader[5]) == Convert.ToInt32(DateTime.Now.Year.ToString()))
                         {
                             Subject rgsb = new Subject
                             {

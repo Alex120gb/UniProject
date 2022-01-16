@@ -3,7 +3,7 @@
     // window.location.href = "../RegisterSubs/RegisterSubjects.cshtml";
 }
 function message() {
-    alert("Student has been added in the excel file.");
+    alert("An excel file will be downloaded containing the Student's selected subjects.");
 }
 
 function Decline() {
