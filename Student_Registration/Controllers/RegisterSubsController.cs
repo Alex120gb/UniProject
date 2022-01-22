@@ -265,7 +265,7 @@ namespace Student_Registration.Controllers
                     "INNER JOIN subject ON sbj_struct_group.subject = subject.sbj " +
                     "INNER JOIN sem_sub ON subject.sbj = sem_sub.subject " +
                     "INNER JOIN semester ON sem_sub.semester = semester.semid " +
-                    "WHERE stud_course.scid = " + stud + " AND structure.str_name = 'Computer Science 2017' " + 
+                    "WHERE stud_course.scid = " + stud + " AND stud_course.structure_id = structure.stid " + 
                     "AND NOT subject.sbj = ANY (SELECT DISTINCT subject.sbj FROM stud_course " +
                     "INNER JOIN stud_course_sbj ON stud_course.scid = stud_course_sbj.stud_course " +
                     "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +

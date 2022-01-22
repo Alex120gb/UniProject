@@ -1,8 +1,10 @@
-﻿.dropdown_crs {
-    background-color: gray;
-    color: white;
-    width: 25%;
+﻿.tab-content {
+    height: 350px;
 }
+.input-group {
+    width: 50%;
+}
+
 input[type=text] {
     padding: 6px;
     margin-top: 8px;
@@ -19,6 +21,6 @@ input[type=text] {
     cursor: pointer;
 }
 
-    .search-container button:hover {
+.search-container button:hover {
         background: #ccc;
-    }
+}

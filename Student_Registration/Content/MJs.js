@@ -10,6 +10,7 @@ function Decline() {
     var st = $("#cancel").val();
     window.location.replace("https://localhost:44398/RegisterSubs/RegisterSubjects?stud=" + encodeURIComponent(st));
 }
+
 function searchST() {
     var input, filter, table, tr, td, i;
     input = document.getElementById("srch_box");

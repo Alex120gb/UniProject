@@ -110,13 +110,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
     if ($("#lastGpa").text() <= 7.5 && $("#lastGpa").text() >= 5) {
         $("#sbj_selct").prop('disabled', true);
         $("#GPAWarning").text("Warning: Last semester GPA is less than 7.5! Recommended ECTS for current semester is 25!");
-        $("#GPAWarning").css('color', 'red');
     }
 
     if ($("#lastGpa").text() < 5) {
         $("#sbj_selct").prop('disabled', true);
         $("#GPAWarning").text("Warning: Last semester GPA is less than 5! Recommended ECTS for current semester is 20!");
-        $("#GPAWarning").css('color', 'red');
     }
 
     if ($("#selected_sub").children().length <= 0) {
@@ -147,7 +145,6 @@ function jsfunction(ajaxContext) {
     if (count > 30) {
         $("#seper").text(" - ");
         $("#msg").text("Warning: Exceeded 30 ECTS!");
-        $("#messages").children('#msg').css('color', 'red');
     }
 
     if (count <= 30) {
@@ -158,138 +155,11 @@ function jsfunction(ajaxContext) {
     if ($("#lastGpa").text() <= 7.5 && $("#lastGpa").text() >= 5 && count >= 25) {
         $("#seper").text(" - ");
         $("#msg").text("Warning: Exceeded 25 ECTS!");
-        $("#messages").children('#msg').css('color', 'red');
     }
 
     if ($("#lastGpa").text() < 5 && count >= 20) {
         $("#seper").text(" - ");
         $("#msg").text("Warning: Exceeded 20 ECTS!");
-        $("#messages").children('#msg').css('color', 'red');
     }
 }
-
-
-/* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
-function myFunctionR(btn) {
-    document.getElementById("myDropdown_R").classList.toggle("show");
-    var property = document.getElementById(btn);
-    var vl = parseInt(property.value);
-    
-    if (vl == 0) {
-        document.querySelector("#ImgReq").style.transform = "rotate(0deg)";
-        property.style.backgroundColor = "#6c757d";
-        property.style.borderColor = "#6c757d";
-        property.value = "1";
-    }
-
-    if (vl == 1) {
-        document.querySelector("#ImgReq").style.transform = "rotate(180deg)";
-        property.style.backgroundColor = "#0d6efd";
-        property.style.borderColor = "#0d6efd";
-        property.value = "0";
-    }
-}
-
-function myFunctionT(btn) {
-    document.getElementById("myDropdown_T").classList.toggle("show");
-
-    var property = document.getElementById(btn);
-    var vl = property.value;
-
-    if (vl == 0) {
-        document.querySelector("#ImgTech").style.transform = "rotate(0deg)";
-        property.style.backgroundColor = "#6c757d";
-        property.style.borderColor = "#6c757d";
-        property.value = 1;
-    }
-
-    if (vl == 1) {
-        document.querySelector("#ImgTech").style.transform = "rotate(180deg)";
-        property.style.backgroundColor = "#0d6efd";
-        property.style.borderColor = "#0d6efd";
-        property.value = 0;
-    }
-}
-
-function myFunctionF(btn) {
-    document.getElementById("myDropdown_F").classList.toggle("show");
-
-    var property = document.getElementById(btn);
-    var vl = property.value;
-
-    if (vl == 0) {
-        document.querySelector("#ImgFree").style.transform = "rotate(0deg)";
-        property.style.backgroundColor = "#6c757d";
-        property.style.borderColor = "#6c757d";
-        property.value = 1;
-    }
-
-    if (vl == 1) {
-        document.querySelector("#ImgFree").style.transform = "rotate(180deg)";
-        property.style.backgroundColor = "#0d6efd";
-        property.style.borderColor = "#0d6efd";
-        property.value = 0;
-    }
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function (event) {
-    if (event.target.matches('#reqClose')) {
-        document.getElementById("myDropdown_R").classList.toggle("show");
-        var btn = document.getElementById("dropdownMenuButton1");
-        var value = btn.value;
-        if (value == 0) {
-            document.querySelector("#ImgReq").style.transform = "rotate(0deg)";
-            btn.style.backgroundColor = "#6c757d";
-            btn.style.borderColor = "#6c757d";
-            btn.value = 1;
-        }
-        if (value == 1) {
-            document.querySelector("#ImgReq").style.transform = "rotate(180deg)";
-            btn.style.backgroundColor = "#0d6efd";
-            btn.style.borderColor = "#0d6efd";
-            btn.value = 0;
-        }
-    }
-
-    if (event.target.matches('#techClose')) {
-        document.getElementById("myDropdown_T").classList.toggle("show");
-
-        var btn = document.getElementById("dropdownMenuButton2");
-        var value = btn.value;
-        if (value == 0) {
-            document.querySelector("#ImgTech").style.transform = "rotate(0deg)";
-            btn.style.backgroundColor = "#6c757d";
-            btn.style.borderColor = "#6c757d";
-            btn.value = 1;
-        }
-        if (value == 1) {
-            document.querySelector("#ImgTech").style.transform = "rotate(180deg)";
-            btn.style.backgroundColor = "#0d6efd";
-            btn.style.borderColor = "#0d6efd";
-            btn.value = 0;
-        }
-    }
-
-    if (event.target.matches('#freeClose')) {
-        document.getElementById("myDropdown_F").classList.toggle("show");
-
-        var btn = document.getElementById("dropdownMenuButton3");
-        var value = parseInt(btn.value);
-        if (value == 0) {
-            document.querySelector("#ImgFree").style.transform = "rotate(0deg)";
-            btn.style.backgroundColor = "#6c757d";
-            btn.style.borderColor = "#6c757d";
-            btn.value = "1";
-        }
-        if (value == 1) {
-            document.querySelector("#ImgFree").style.transform = "rotate(180deg)";
-            btn.style.backgroundColor = "#0d6efd";
-            btn.style.borderColor = "#0d6efd";
-            btn.value = "0";
-        }
-    }
-}
-
 

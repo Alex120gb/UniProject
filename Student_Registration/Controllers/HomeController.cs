@@ -63,7 +63,7 @@ namespace Student_Registration.Controllers
             using (MySqlConnection con = new MySqlConnection("server=localhost; user=root; database=student_registration; port=3306;password=''; SslMode=none;"))
             {
                 con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT course.name FROM course; ", con);
+                MySqlCommand cmd = new MySqlCommand("SELECT course.name, structure.str_name FROM course; ", con);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
