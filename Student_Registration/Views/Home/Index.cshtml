@@ -3,13 +3,15 @@
     ViewBag.Title = "Home Page";
 }
 <head>
-    <script src="~/Content/JS_2.js"></script>
+    <script src="~/Content/DropDownFunctions.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/Login.css" />
     <link rel="stylesheet" href="~/Content/dropDown.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="~/Scripts/jquery-3.6.0.js"></script>
     <script src="~/Content/MJs.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 </head>
 <div class="text-center">
     <img src="~/Icon/Frederick-University-logo.jpg" alt="Frederick University Logo" class="avatar" width="600" height="200">
@@ -17,85 +19,91 @@
 </div>
 <br />
 <br />
-@using (Ajax.BeginForm("Index", "Home", new AjaxOptions
-{
-    HttpMethod = "POST",
-    LoadingElementId = "LoadingImage",
-    OnSuccess = "onSuccess_Message",
-    OnFailure = "onFailure_Message",
-    LoadingElementDuration = 500
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h5><label for="select_course">Select a course:</label></h5>
+            <select id="select_course" name="courses" onchange="filters(this)" data-attr="dropdown">
+                <option hidden value="" id="default">Select a course...</option>
+                <option>All</option>
+                @foreach (var item in Model.Courses)
+                {
+                    <option id="@item.Course_name">@item.Course_name</option>
+                }
+            </select>
+        </div>
 
-}))
-{
-    <h5><label for="select_course">Select a course:</label></h5>
-    <div class="input-group">
-        <select class="form-select" id="select_course" name="courses"
-                data-show-subtext="true" data-live-search="true"> style="margin-right: 4px;">
-            @if (Model.Crs_name == "" || Model.Crs_name == null)
-            {
-                <option hidden>Select a course...</option>
-            }
-            else
-            {
-                <option hidden>@Model.Crs_name</option>
-            }
+        <div class="col-6">
+            <h5><label for="select_structure">Select a structure:</label></h5>
+            <div >
+                <select id="select_structure" data-attr="dropdown">
+                    <option hidden value="">Select a structure...</option>
+                    <option value="All">All</option>
+                    @foreach (var item in Model.Structure)
+                    {
+                        <option id="@item.Course_name">@item.Structure_name</option>
+                    }
+                </select>
+            </div>
+           
+        </div>
 
-            <option value="All">All</option>
-            @foreach (var item in Model.Courses)
-            {
-                <option value="@item.course_name">@item.course_name</option>
-            }
-        </select>
-        <input class="btn btn-secondary" type="submit" value="Select Course">
     </div>
-
-}
+    <div class="row">
+        <div>
+            <input style="float: right" class="btn btn-secondary col-1 mt-1" type="submit" value="Filter">
+        </div>
+    </div>
+</div>
 <br />
 
-<div class="search-container" style="margin-bottom: 5px;">
-    <h5><label for="search">Search for a student by name/surname/reg. number:</label></h5>
-    <input type="text" placeholder="Search.." name="search" onkeyup="searchST()" id="srch_box">
-    <button type="button" onclick="searchST()"><i class="fa fa-search"></i></button>
-</div>
-<div class="tab-content overflow-auto">
-    <table class="table" id="studs" border="1">
-        <thead>
-            <tr>
-                <th scope="col"> Name </th>
-                <th scope="col"> Surname </th>
-                <th scope="col"> Reg. Number </th>
-                <th scope="col"> Course </th>
-                <th scope="col"> Edit </th>
-                <th scope="col"> View all subjects </th>
-            </tr>
-        </thead>
-        <tbody id="s_tbl">
-            @foreach (var item in Model.Studs)
-            {
+<div class="container">
+    <div class="search-container" style="margin-bottom: 5px;">
+        <h5><label for="search">Search for a student by name/surname/reg. number:</label></h5>
+        <input type="text" placeholder="Search.." name="search" onkeyup="searchST()" id="srch_box">
+        <button type="button" onclick="searchST()"><i class="fa fa-search"></i></button>
+    </div>
+    <div class="tab-content overflow-auto">
+        <table class="table" id="studs" border="1">
+            <thead>
                 <tr>
-                    <td class="center"> @item.Name </td>
-                    <td class="center"> @item.Surname </td>
-                    <td class="center"> @item.RegNum </td>
-                    <td class="center"> @item.Course </td>
-                    <td>
-                        @using (Html.BeginForm("RegisterSubjects", "RegisterSubs", FormMethod.Post))
-                        {
-                            <button name="stud" value="@item.ScId" class="btn btn-secondary"> Edit </button>
-                        }
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("MySubjects", "MySubs", FormMethod.Post))
-                        {
-                            <button name="stud" value="@item.ScId" class="btn btn-primary"> View all </button>
-                        }
-                    </td>
+                    <th scope="col"> Name </th>
+                    <th scope="col"> Surname </th>
+                    <th scope="col"> Reg. Number </th>
+                    <th scope="col"> Course </th>
+                    <th scope="col"> Edit </th>
+                    <th scope="col"> View all subjects </th>
                 </tr>
+            </thead>
+            <tbody id="s_tbl">
+                @foreach (var item in Model.Studs)
+                {
+                    <tr>
+                        <td class="center"> @item.Name </td>
+                        <td class="center"> @item.Surname </td>
+                        <td class="center"> @item.RegNum </td>
+                        <td class="center"> @item.Course </td>
+                        <td>
+                            @using (Html.BeginForm("RegisterSubjects", "RegisterSubs", FormMethod.Post))
+                            {
+                                <button name="stud" value="@item.ScId" class="btn btn-secondary"> Edit </button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("MySubjects", "MySubs", FormMethod.Post))
+                            {
+                                <button name="stud" value="@item.ScId" class="btn btn-primary"> View all </button>
+                            }
+                        </td>
+                    </tr>
 
-            }
+                }
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <br />
 <br />
 <br />

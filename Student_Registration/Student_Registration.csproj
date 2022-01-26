@@ -210,6 +210,7 @@
     <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\Failed_NotActive.cs" />
     <Compile Include="Models\MultiLists.cs" />
+    <Compile Include="Models\Structure.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -234,7 +235,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\dropDown.css" />
     <Content Include="Content\MJs.js" />
-    <Content Include="Content\JS_2.js" />
+    <Content Include="Content\DropDownFunctions.js" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\MyJs.js" />
     <Content Include="favicon.ico" />

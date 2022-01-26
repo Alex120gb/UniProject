@@ -5,9 +5,10 @@ using System.Web;
 
 namespace Student_Registration.Models
 {
-    public class Courses
+    public class Structure
     {
-        public int Crid { get; set; }
+        public int Stid { get; set; }
         public string Course_name { get; set; }
+        public string Structure_name { get; set; }
     }
 }

@@ -1,4 +1,10 @@
-﻿function goBack() {
+﻿$(document).ready(function () {
+    $('select').selectize({
+        sortField: 'text'
+    });
+});
+
+function goBack() {
     window.location.replace("https://localhost:44398/Home/Index");
     // window.location.href = "../RegisterSubs/RegisterSubjects.cshtml";
 }
