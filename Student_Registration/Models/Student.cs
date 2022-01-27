@@ -10,6 +10,7 @@ namespace Student_Registration.Models
         public int ScId { get; set; }
         public int StId { get; set; }
         public string Course { get; set; }
+        public string Struct { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public int RegNum { get; set; }

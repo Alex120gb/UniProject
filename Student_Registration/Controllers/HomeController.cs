@@ -124,10 +124,11 @@ namespace Student_Registration.Controllers
             using (MySqlConnection con = new MySqlConnection("server=localhost; user=root; database=student_registration; port=3306;password=''; SslMode=none;"))
             {
                 con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT student.stid, student.name, student.surname, student.regNum, stud_course.scid, course.name, stud_course.scid " +
-                    "FROM stud_course " +
+                MySqlCommand cmd = new MySqlCommand("SELECT student.stid, student.name, student.surname, student.regNum, stud_course.scid, course.name, stud_course.scid, " +
+                    "structure.str_name FROM stud_course " +
                     "INNER JOIN student ON stud_course.student = student.stid " +
-                    "INNER JOIN course ON stud_course.course = course.crid; ", con);
+                    "INNER JOIN course ON stud_course.course = course.crid " +
+                    "INNER JOIN structure ON stud_course.structure_id = structure.stid; ", con);
                 MySqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -138,7 +139,8 @@ namespace Student_Registration.Controllers
                         Name = reader[1].ToString(),
                         Surname = reader[2].ToString(),
                         RegNum = Convert.ToInt32(reader[3]),
-                        Course = reader[5].ToString()
+                        Course = reader[5].ToString(),
+                        Struct = reader[7].ToString()
                     };
 
                     stud.Add(st);

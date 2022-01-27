@@ -3,12 +3,12 @@
     ViewBag.Title = "Home Page";
 }
 <head>
-    <script src="~/Content/DropDownFunctions.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/Login.css" />
     <link rel="stylesheet" href="~/Content/dropDown.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/Content/MJs.js"></script>
+    <script src="~/Content/DropDownFunctions.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
@@ -22,55 +22,37 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h5><label for="select_course">Select a course:</label></h5>
+            <h6><label for="select_course">Select a structure to filter:</label></h6>
             <select id="select_course" name="courses" onchange="filters(this)" data-attr="dropdown">
-                <option hidden value="" id="default">Select a course...</option>
+                <option hidden value="" id="default">Select a structure...</option>
                 <option>All</option>
-                @foreach (var item in Model.Courses)
+                @foreach (var item in Model.Structure)
                 {
-                    <option id="@item.Course_name">@item.Course_name</option>
+                    <optgroup label="@item.Course_name">
+                        <option>@item.Structure_name</option>
+                    </optgroup>
                 }
             </select>
-        </div>
-
-        <div class="col-6">
-            <h5><label for="select_structure">Select a structure:</label></h5>
-            <div >
-                <select id="select_structure" data-attr="dropdown">
-                    <option hidden value="">Select a structure...</option>
-                    <option value="All">All</option>
-                    @foreach (var item in Model.Structure)
-                    {
-                        <option id="@item.Course_name">@item.Structure_name</option>
-                    }
-                </select>
-            </div>
-           
-        </div>
-
-    </div>
-    <div class="row">
-        <div>
-            <input style="float: right" class="btn btn-secondary col-1 mt-1" type="submit" value="Filter">
         </div>
     </div>
 </div>
 <br />
 
 <div class="container">
-    <div class="search-container" style="margin-bottom: 5px;">
-        <h5><label for="search">Search for a student by name/surname/reg. number:</label></h5>
+    <div class="search-container" style="margin-bottom: 5px; width: 100%;">
+        <h6><label for="search">Search for a student by name/surname/reg. number:</label></h6>
         <input type="text" placeholder="Search.." name="search" onkeyup="searchST()" id="srch_box">
         <button type="button" onclick="searchST()"><i class="fa fa-search"></i></button>
     </div>
     <div class="tab-content overflow-auto">
-        <table class="table" id="studs" border="1">
-            <thead>
+        <table class="table table-hover" id="studs" border="1">
+            <thead class="table-secondary">
                 <tr>
                     <th scope="col"> Name </th>
                     <th scope="col"> Surname </th>
                     <th scope="col"> Reg. Number </th>
                     <th scope="col"> Course </th>
+                    <th scope="col"> Structure </th>
                     <th scope="col"> Edit </th>
                     <th scope="col"> View all subjects </th>
                 </tr>
@@ -78,11 +60,12 @@
             <tbody id="s_tbl">
                 @foreach (var item in Model.Studs)
                 {
-                    <tr>
+                    <tr id="@item.ScId">
                         <td class="center"> @item.Name </td>
                         <td class="center"> @item.Surname </td>
                         <td class="center"> @item.RegNum </td>
                         <td class="center"> @item.Course </td>
+                        <td class="center"> @item.Struct </td>
                         <td>
                             @using (Html.BeginForm("RegisterSubjects", "RegisterSubs", FormMethod.Post))
                             {

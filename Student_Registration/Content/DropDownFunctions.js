@@ -1,55 +1,33 @@
 ﻿/* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
+
+
 function filters(option) {
-    console.log(option.innerText)
-    options = $('#select_structure')[0].selectize.options;
-    console.log(options)
-    var cnt = 0;
-    for (k in options) {
-        cnt++;
-        console.log(k);
-    }
-   
-    /*if (option.innerText == "Computer Science ssss") {
-        select = document.getElementById("select_structure").options.length;
-        //structOptions = select.getElementsByTagName("option");
-        console.log($('#select_structure option').size());
-        for (var i = 0; i < structOptions.length; i++) {
-            optionVal = structOptions[i].getElementById;
-            if (optionVal == option.innerText) {
-                structOptions[i].style.display = "";
+
+    //console.log(option.innerText);
+    var choosen = option.innerText;
+    filter = choosen.toUpperCase();
+
+    
+    var table, tr, i;
+    table = document.getElementById("s_tbl");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td2 = tr[i].getElementsByTagName("td")[4];
+        //td3 = tr[i].getElementsByTagName("td")[4];
+
+        if (td2) {
+            if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                $(tr[i]).show();
+            } else {
+                $(tr[i]).hide();
             }
 
-            else {
-                structOptions[i].style.display = "none";
-            }
-        }
-    }
-
-    else if (option.innerText == "Computer Engineering") {
-        select = document.getElementById("select_structure");
-        structOptions = select.getElementsByTagName("option");
-
-        for (var i = 0; i < structOptions.length; i++) {
-            optionVal = structOptions[i].getElementById;
-            if (optionVal == option.innerText) {
-                structOptions[i].style.display = "";
-            }
-
-            else {
-                structOptions[i].style.display = "none";
+            if (filter == "ALL") {
+                $(tr[i]).show();
             }
         }
+        
     }
-
-    else if (option.innerText == "All" || option.innerText == "") {
-        select = document.getElementById("select_structure");
-        structOptions = select.getElementsByTagName("option");
-
-        for (var i = 0; i < structOptions.length; i++) {
-            optionVal = structOptions[i].getElementById;
-            structOptions[i].style.display = "";
-        }
-    }*/
 }
 
