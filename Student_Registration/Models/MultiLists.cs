@@ -11,7 +11,6 @@ namespace Student_Registration.Models
         public List<Courses> Courses { get; set; }
         public List<Subject> Subject_List { get; set; }
         public List<Failed_NotActive> Failed_NotActive { get; set; }
-        public List<Structure> Structure { get; set; }
         public int ReqECTS { get; set; }
         public int ReqECTSleft { get; set; }
         public int ReqIncomplete { get; set; }
@@ -29,6 +28,5 @@ namespace Student_Registration.Models
         public int Sel_ECTS { get; set; }
         public int St_ScId { get; set; }
         public string Crs_name { get; set; }
-        public string Strct_name { get; set; }
     }
 }

@@ -1,4 +1,9 @@
-﻿.tab-content {
+﻿.selectize-control {
+    display: inline-block;
+    vertical-align: middle !important;
+}
+
+.tab-content {
     height: 350px;
 }
 .input-group {

@@ -11,7 +11,20 @@ function RmAll() {
                 var $tds = $(this).find('td');
                 if ($tds.eq(4).find("#selct-" + id)) {
                     $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
-                    console.log(id);
+                }
+            });
+
+            $("#Failed_req_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#req_Unregistered_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
                 }
             });
         }
@@ -24,11 +37,39 @@ function RmAll() {
                     $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
                 }
             });
+
+            $("#te_Failed_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#te_Unregistered_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
         }
 
         if (str_name == "Free Electives") {
             var id = $(this).closest("tr").find("#gback").val();
             $("#fre_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#Free_Failed_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#fre_Unregistered_tbl").find('tr').each(function (i, el) {
                 var $tds = $(this).find('td');
                 if ($tds.eq(4).find("#selct-" + id)) {
                     $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
@@ -60,7 +101,20 @@ function removeRow() {
                 var $tds = $(this).find('td');
                 if ($tds.eq(4).find("#selct-" + id)) {
                     $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
-                    console.log(id);
+                }
+            });
+
+            $("#Failed_req_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#req_Unregistered_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
                 }
             });
         }
@@ -73,11 +127,39 @@ function removeRow() {
                     $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
                 }
             });
+
+            $("#te_Failed_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#te_Unregistered_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
         }
 
         if (str_name == "Free Electives") {
             var id = $(this).closest("tr").find("#gback").val();
             $("#fre_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#Free_Failed_tbl").find('tr').each(function (i, el) {
+                var $tds = $(this).find('td');
+                if ($tds.eq(4).find("#selct-" + id)) {
+                    $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
+                }
+            });
+
+            $("#fre_Unregistered_tbl").find('tr').each(function (i, el) {
                 var $tds = $(this).find('td');
                 if ($tds.eq(4).find("#selct-" + id)) {
                     $($tds.eq(4).find("#selct-" + id)).prop('disabled', false);
