@@ -90,9 +90,6 @@ function goBack() {
     window.location.replace("https://localhost:44398/Home/Index");
     // window.location.href = "../RegisterSubs/RegisterSubjects.cshtml";
 }
-function message() {
-    alert("An excel file will be downloaded containing the Student's selected subjects.");
-}
 
 function Decline() {
     var st = $("#cancel").val();

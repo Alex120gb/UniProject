@@ -86,34 +86,6 @@ namespace Student_Registration.Controllers
 
         public ActionResult Index()
         {
-            List<Student> stud = new List<Student>();
-            using (MySqlConnection con = new MySqlConnection("server=localhost; user=root; database=student_registration; port=3306;password=''; SslMode=none;"))
-            {
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT student.stid, student.name, student.surname, student.regNum, stud_course.scid, course.name, stud_course.scid, " +
-                    "structure.str_name FROM stud_course " +
-                    "INNER JOIN student ON stud_course.student = student.stid " +
-                    "INNER JOIN course ON stud_course.course = course.crid " +
-                    "INNER JOIN structure ON stud_course.structure_id = structure.stid; ", con);
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    Student st = new Student
-                    {
-                        ScId = Convert.ToInt32(reader[6]),
-                        StId = Convert.ToInt32(reader[0]),
-                        Name = reader[1].ToString(),
-                        Surname = reader[2].ToString(),
-                        RegNum = Convert.ToInt32(reader[3]),
-                        Course = reader[5].ToString(),
-                        Struct = reader[7].ToString()
-                    };
-
-                    stud.Add(st);
-
-                }
-            }
-
             List<Courses> crs = new List<Courses>();
             using (MySqlConnection con = new MySqlConnection("server=localhost; user=root; database=student_registration; port=3306;password=''; SslMode=none;"))
             {
@@ -134,8 +106,7 @@ namespace Student_Registration.Controllers
 
             MultiLists ML = new MultiLists
             {
-                Courses = crs,
-                Studs = stud
+                Courses = crs
             };
 
             return View(ML);
