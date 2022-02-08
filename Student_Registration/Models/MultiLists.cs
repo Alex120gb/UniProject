@@ -28,5 +28,6 @@ namespace Student_Registration.Models
         public int Sel_ECTS { get; set; }
         public int St_ScId { get; set; }
         public string Crs_name { get; set; }
+        public int AllECTS { get; set; }
     }
 }

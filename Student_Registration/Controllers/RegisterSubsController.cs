@@ -27,8 +27,8 @@ namespace Student_Registration.Controllers
                 int Free_cnt = 0;
                 con.Open();
                 
-                MySqlCommand cmd = new MySqlCommand("SELECT subject.ects, struct_group.name, stud_course_sbj.passed, semester.sname, " + 
-                    "semester.yr, stud_course_sbj.grade FROM stud_course " + 
+                MySqlCommand cmd = new MySqlCommand("SELECT subject.ects, struct_group.name, stud_course_sbj.passed, semester.sname, " +
+                    "semester.yr, stud_course_sbj.grade, stud_course.transfCreds FROM stud_course " + 
                     "INNER JOIN stud_course_sbj ON stud_course_sbj.stud_course = stud_course.scid " +
                     "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
                     "INNER JOIN semester ON stud_course_sbj.semester = semester.semid " +
@@ -39,6 +39,7 @@ namespace Student_Registration.Controllers
 
                 while (reader.Read())
                 {
+                    ML.AllECTS = Convert.ToInt32(reader[6]);
                     if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 1 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 5)
                     {
                         if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == Convert.ToInt32(DateTime.Now.Year.ToString()) - 1 && reader[2].ToString() == "P")
