@@ -51,7 +51,7 @@
         </div>
         <div style="float: right">
             <button id="cancel" type="button" class="btn btn-danger me-2" value="@Model.St_ScId" onclick="Decline()" style="float: left">Decline</button>
-            <button id="show" class="btn btn-primary me-2" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Download</button>
+            <button id="show" class="btn btn-primary me-2" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Update Excel</button>
             <button class="btn btn-primary" type="button" onclick="goBack()" style="float: right">Home</button>
         </div>
     </div>
@@ -65,12 +65,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to proceed? <br /> Click Yes to download an excel file with the student's subjects.
+                    Are you sure you want to proceed? <br /> Click Yes to update the existing excel file.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
                     @Html.HiddenFor(m => m.St_ScId)
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+                    <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" 
+                            data-bs-dismiss="modal" id="waitUpdate" >Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel2">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h5><span class="badge bg-success">Excel file has been successfully updated!</span></h5>
+                    </div>
                 </div>
             </div>
         </div>

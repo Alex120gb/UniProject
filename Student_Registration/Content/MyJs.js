@@ -1,4 +1,6 @@
 ﻿//Remove all content in selected_sub table
+$(document).ready(function () {
+});
 function RmAll() {
    
     $('#selected_sub #gback').each(function () {
@@ -189,7 +191,7 @@ function removeRow() {
 document.addEventListener('DOMContentLoaded', function (event) {
     //the event occurred
     
-    if ($("#lastGpa").text() <= 7.5 && $("#lastGpa").text() >= 5) {
+    if ($("#lastGpa").text() <= 6 && $("#lastGpa").text() >= 5) {
         $("#sbj_selct").prop('disabled', true);
         $("#GPAWarning").text("Warning: Last semester GPA is less than 7.5! Recommended ECTS for current semester is 25!");
     }

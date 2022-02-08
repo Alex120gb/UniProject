@@ -14,6 +14,8 @@ namespace Student_Registration.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public int RegNum { get; set; }
+        public int TotEcts { get; set; }
+        public int TransfECTS { get; set; }
 
     }
 }

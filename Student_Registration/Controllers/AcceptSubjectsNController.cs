@@ -5,11 +5,122 @@ using System.Web.Mvc;
 using ClosedXML.Excel;
 using MySql.Data.MySqlClient;
 using Student_Registration.Models;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Student_Registration.Controllers
 {
     public class AcceptSubjectsNController : Controller
     {
+        private string excelFilePath = "C:\\Users\\Alexis\\Desktop\\FinalYearProject\\ASP_ProjectFiles\\Test";
+        private int rowNumber = 1; // define first row number to enter data in excel
+
+        Excel.Application myExcelApplication;
+        Excel.Workbook myExcelWorkbook;
+        Excel.Worksheet myExcelWorkSheet;
+
+        public string ExcelFilePath
+        {
+            get { return excelFilePath; }
+            set { excelFilePath = value; }
+        }
+
+        public int Rownumber
+        {
+            get { return rowNumber; }
+            set { rowNumber = value; }
+        }
+
+        public void openExcel()
+        {
+            myExcelApplication = null;
+
+            myExcelApplication = new Excel.Application(); // create Excell App
+            myExcelApplication.DisplayAlerts = false; // turn off alerts
+
+
+            myExcelWorkbook = (Excel.Workbook)(myExcelApplication.Workbooks._Open(excelFilePath, System.Reflection.Missing.Value,
+               System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+               System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+               System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+               System.Reflection.Missing.Value, System.Reflection.Missing.Value)); // open the existing excel file
+
+            int numberOfWorkbooks = myExcelApplication.Workbooks.Count; // get number of workbooks (optional)
+
+            myExcelWorkSheet = (Excel.Worksheet)myExcelWorkbook.Worksheets[1]; // define in which worksheet, do you want to add data
+            //myExcelWorkSheet.Name = "WorkSheet 1"; // define a name for the worksheet (optinal)
+            //while (myExcelWorkSheet.Row)
+            //myExcelWorkSheet.UsedRange;
+            int numberOfSheets = myExcelWorkbook.Worksheets.Count; // get number of worksheets (optional)
+            int cnt = 0;
+            for (int i = 1; i <= myExcelWorkSheet.Rows.Count; i++)
+            {
+                cnt++;
+                string test = myExcelWorkSheet.Rows[i].Cells[1].value;
+                if (test == null || test == "")
+                {
+                    rowNumber += cnt - 1;
+                    break;
+                }
+            }
+        }
+        
+        public void addDataToExcel(string Stname, string Stlastname, string RegNumb, string TransfECTS, string TotalECTS, 
+            string AfterAddition, string LeftECTS, string SubCodes, string Ects)
+        {
+            myExcelWorkSheet.Cells[rowNumber, "A"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "A"] = Stname;
+
+            myExcelWorkSheet.Cells[rowNumber, "B"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "B"] = Stlastname;
+
+            myExcelWorkSheet.Cells[rowNumber, "C"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "C"] = RegNumb;
+
+            myExcelWorkSheet.Cells[rowNumber, "D"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "D"] = TransfECTS;
+
+            myExcelWorkSheet.Cells[rowNumber, "E"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "E"] = TotalECTS;
+
+            myExcelWorkSheet.Cells[rowNumber, "F"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "F"] = AfterAddition;
+
+            myExcelWorkSheet.Cells[rowNumber, "G"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "G"] = LeftECTS;
+
+            myExcelWorkSheet.Cells[rowNumber, "H"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "H"] = SubCodes;
+
+            myExcelWorkSheet.Cells[rowNumber, "I"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "I"] = Ects;
+            rowNumber++;  // if you put this method inside a loop, you should increase rownumber by one or wat ever is your logic
+
+        }
+
+        public void closeExcel()
+        {
+            try
+            {
+                myExcelWorkbook.SaveAs(excelFilePath, System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                                               System.Reflection.Missing.Value, System.Reflection.Missing.Value, Excel.XlSaveAsAccessMode.xlNoChange,
+                                               System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                                               System.Reflection.Missing.Value, System.Reflection.Missing.Value); // Save data in excel
+
+
+                myExcelWorkbook.Close(true, excelFilePath, System.Reflection.Missing.Value); // close the worksheet
+
+
+            }
+            finally
+            {
+                if (myExcelApplication != null)
+                {
+                    myExcelApplication.Quit(); // close the excel application
+                }
+            }
+
+        }
+
         [HttpPost]
         public ActionResult AcceptSubjects(List<int> subjE, MultiLists ScId)
         {
@@ -67,6 +178,7 @@ namespace Student_Registration.Controllers
         [HttpPost]
         public ActionResult ConfirmUpdate(List<int> sbe, MultiLists ScId)
         {
+            
             List<Subject> excel_subjects = new List<Subject>();
 
             int ects_cnt = 0;
@@ -107,10 +219,13 @@ namespace Student_Registration.Controllers
             using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=student_registration;port=3306;password='';SslMode=none;"))
             {
                 con.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT student.stid, student.name, student.surname, student.regNum, course.name FROM stud_course " +
+                MySqlCommand cmd = new MySqlCommand("SELECT student.stid, student.name, student.surname, student.regNum, " +
+                    "stud_course.transfCreds, SUM(subject.ects) FROM stud_course " +
                     "INNER JOIN student ON student.stid = stud_course.student " +
+                    "INNER JOIN stud_course_sbj ON stud_course.scid = stud_course_sbj.stud_course " +
+                    "INNER JOIN subject ON stud_course_sbj.subject = subject.sbj " +
                     "INNER JOIN course ON stud_course.course = course.crid " +
-                    "WHERE stud_course.scid = " + ScId.St_ScId + "; ", con);
+                    "WHERE stud_course.scid = " + ScId.St_ScId + " AND stud_course_sbj.passed = 'P'; ", con);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -119,82 +234,38 @@ namespace Student_Registration.Controllers
                     st.Name = reader[1].ToString();
                     st.Surname = reader[2].ToString();
                     st.RegNum = Convert.ToInt32(reader[3]);
+                    st.TransfECTS = Convert.ToInt32(reader[4]);
+                    st.TotEcts = Convert.ToInt32(reader[5]);
                 }
 
                 reader.Close();
             }
-
-            using (var workbook = new XLWorkbook())
+            this.openExcel();
+            string subCodes = "";
+            int TotSubEcts = 0;
+            int cnt = excel_subjects.Count;
+            int i = 0;
+            foreach (var item in excel_subjects)
             {
-                var worksheet = workbook.Worksheets.Add("MultiList");
-                var currentRow = 1;
-                worksheet.Cell(currentRow, 1).Value = "Student";
-                worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.Green;
-
-                currentRow++;
-                worksheet.Cell(currentRow, 1).Value = "Name";
-                worksheet.Cell(currentRow, 2).Value = "Surname";
-                worksheet.Cell(currentRow, 3).Value = "Reg. Number";
-                //Colors
-                worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                worksheet.Cell(currentRow, 2).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                worksheet.Cell(currentRow, 3).Style.Fill.BackgroundColor = XLColor.BlueGray;
-
-                currentRow++;
-                worksheet.Cell(currentRow, 1).Value = st.Name;
-                worksheet.Cell(currentRow, 2).Value = st.Surname;
-                worksheet.Cell(currentRow, 3).Value = st.RegNum;
-                //Colors
-                worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                worksheet.Cell(currentRow, 2).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                worksheet.Cell(currentRow, 3).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                currentRow++;
-
-                worksheet.Cell(currentRow, 1).Value = "Subjects";
-                worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.Green;
-                currentRow++;
-                worksheet.Cell(currentRow, 1).Value = "Type";
-                worksheet.Cell(currentRow, 2).Value = "Code";
-                worksheet.Cell(currentRow, 3).Value = "Name";
-                worksheet.Cell(currentRow, 4).Value = "ECTS";
-                worksheet.Cell(currentRow, 5).Value = "Semester";
-                //Colors
-                worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                worksheet.Cell(currentRow, 2).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                worksheet.Cell(currentRow, 3).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                worksheet.Cell(currentRow, 4).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                worksheet.Cell(currentRow, 5).Style.Fill.BackgroundColor = XLColor.BlueGray;
-                foreach (var item in excel_subjects)
+                i++;
+                TotSubEcts += Convert.ToInt32(item.Ects);
+                if (i == cnt)
                 {
-                    currentRow++;
-                    worksheet.Cell(currentRow, 1).Value = item.StructName;
-                    worksheet.Cell(currentRow, 2).Value = item.SubjCode;
-                    worksheet.Cell(currentRow, 3).Value = item.SubjName;
-                    worksheet.Cell(currentRow, 4).Value = item.Ects;
-                    worksheet.Cell(currentRow, 5).Value = item.Semester + " " + item.SemYear;
-                    //Colors
-                    worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                    worksheet.Cell(currentRow, 2).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                    worksheet.Cell(currentRow, 3).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                    worksheet.Cell(currentRow, 4).Style.Fill.BackgroundColor = XLColor.AliceBlue;
-                    worksheet.Cell(currentRow, 5).Style.Fill.BackgroundColor = XLColor.AliceBlue;
+                    subCodes += item.SubjCode;
                 }
-                currentRow++;
-                worksheet.Cell(currentRow, 1).Value = "Total ECTS: " + ects_cnt;
-                worksheet.Cell(currentRow, 1).Style.Fill.BackgroundColor = XLColor.Green;
-                using (var stream = new MemoryStream())
+                else
                 {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
-
-                    return File(
-                        content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        st.Name + " " + st.Surname + " (" + st.RegNum + ").xlsx");
+                    subCodes += item.SubjCode + ", ";
                 }
-
             }
-        }
+            int AfterAdd = st.TotEcts + TotSubEcts + st.TransfECTS;
+            int LeftECTS = 240 - AfterAdd;
+            this.addDataToExcel(st.Name, st.Surname, Convert.ToString(st.RegNum), Convert.ToString(st.TransfECTS), Convert.ToString(st.TotEcts),
+            Convert.ToString(AfterAdd), Convert.ToString(LeftECTS), subCodes, Convert.ToString(TotSubEcts));
+            this.closeExcel();
 
+            return new HttpStatusCodeResult(204);
+        }
     }
 }
+
