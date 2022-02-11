@@ -11,6 +11,10 @@ namespace Student_Registration.Models
         public List<Courses> Courses { get; set; }
         public List<Subject> Subject_List { get; set; }
         public List<Failed_NotActive> Failed_NotActive { get; set; }
+        public int MyReqECTS { get; set; }
+        public int MyTechECTS { get; set; }
+        public int MyFreeECTS { get; set; }
+        public int MyAllECTS { get; set; }
         public int ReqECTS { get; set; }
         public int ReqECTSleft { get; set; }
         public int ReqIncomplete { get; set; }

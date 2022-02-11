@@ -14,6 +14,8 @@ namespace Student_Registration.Controllers
             MultiLists ML = new MultiLists();
             using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=student_registration;port=3306;password='';SslMode=none;"))
             {
+                int allECTS = 0;
+                int TransfECTS = 0;
                 int Last_Sem_Tot_ECTS = 0;
                 double Last_Sem_GPA = 0.0;
                 
@@ -39,7 +41,12 @@ namespace Student_Registration.Controllers
 
                 while (reader.Read())
                 {
-                    ML.AllECTS = Convert.ToInt32(reader[6]);
+                    TransfECTS = Convert.ToInt32(reader[6]);
+                    if (reader[2].ToString() == "P")
+                    {
+                        allECTS += Convert.ToInt32(reader[0]);
+                    }
+                    
                     if (Convert.ToInt32(DateTime.Now.Month.ToString()) >= 1 && Convert.ToInt32(DateTime.Now.Month.ToString()) <= 5)
                     {
                         if (reader[3].ToString() == "Spring" && Convert.ToInt32(reader[4]) == Convert.ToInt32(DateTime.Now.Year.ToString()) - 1 && reader[2].ToString() == "P")
@@ -153,6 +160,7 @@ namespace Student_Registration.Controllers
                     }
                 }
 
+                ML.AllECTS = allECTS + TransfECTS;
                 ML.ReqECTS = Req_sum;
                 ML.ReqECTSleft = 177 - Req_sum;
                 ML.ReqIncomplete = Req_cnt;

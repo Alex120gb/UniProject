@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="~/Content/Site.css" />
 </head>
 <br />
-<h2> Currently Viewing: @Session["st_name"] @Session["st_surname"] (@Session["st_regNum"])</h2>
-<h2> Course: @Session["course"]</h2>
-<h2>Total ECTS: @Session["My_All_ECTS"] </h2>
+<h2> Currently Viewing: @Model.St_Fullname (@Model.St_regNum)</h2>
+<h2> Course: @Model.Course </h2>
+<h2>Total ECTS: @Model.MyAllECTS </h2>
 <br />
 <hr />
 @if (Model.Subject_List.Count == 0)
@@ -62,7 +62,7 @@ else
                 }
             </tbody>
         </table>
-        <h5><b>Total Requried ECTS: @Session["My_ECTS_Req"]</b></h5>
+        <h5><b>Total Requried ECTS: @Model.MyReqECTS</b></h5>
 
         <br />
         <hr />
@@ -100,7 +100,7 @@ else
                 }
             </tbody>
         </table>
-        <h5><b>Total Technical Electives ECTS: @Session["My_ECTS_Tech"]</b></h5>
+        <h5><b>Total Technical Electives ECTS: @Model.MyTechECTS</b></h5>
 
         <br />
         <hr />
@@ -138,7 +138,7 @@ else
                 }
             </tbody>
         </table>
-        <h5><b>Total Free Electives ECTS: @Session["My_ECTS_Free"]</b></h5>
+        <h5><b>Total Free Electives ECTS: @Model.MyFreeECTS</b></h5>
     </div>
 
     <br />
