@@ -70,8 +70,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
                     @Html.HiddenFor(m => m.St_ScId)
-                    <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" 
-                            data-bs-dismiss="modal" id="waitUpdate" >Yes</button>
+                    @Html.HiddenFor(m => m.LastSem_ECTS)
+                    <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                            data-bs-dismiss="modal" id="waitUpdate">
+                        Yes
+                    </button>
                 </div>
             </div>
         </div>

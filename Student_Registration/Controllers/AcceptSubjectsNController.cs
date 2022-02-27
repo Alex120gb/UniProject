@@ -64,7 +64,7 @@ namespace Student_Registration.Controllers
             }
         }
         
-        public void addDataToExcel(string Stname, string Stlastname, string RegNumb, string TransfECTS, string TotalECTS, 
+        public void addDataToExcel(string Stname, string Stlastname, string RegNumb, string TransfECTS, string LastSemECTS, string TotalECTS, 
             string AfterAddition, string LeftECTS, string SubCodes, string Ects)
         {
             myExcelWorkSheet.Cells[rowNumber, "A"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
@@ -80,19 +80,22 @@ namespace Student_Registration.Controllers
             myExcelWorkSheet.Cells[rowNumber, "D"] = TransfECTS;
 
             myExcelWorkSheet.Cells[rowNumber, "E"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
-            myExcelWorkSheet.Cells[rowNumber, "E"] = TotalECTS;
+            myExcelWorkSheet.Cells[rowNumber, "E"] = LastSemECTS;
 
             myExcelWorkSheet.Cells[rowNumber, "F"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
-            myExcelWorkSheet.Cells[rowNumber, "F"] = AfterAddition;
+            myExcelWorkSheet.Cells[rowNumber, "F"] = TotalECTS;
 
             myExcelWorkSheet.Cells[rowNumber, "G"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
-            myExcelWorkSheet.Cells[rowNumber, "G"] = LeftECTS;
+            myExcelWorkSheet.Cells[rowNumber, "G"] = AfterAddition;
 
             myExcelWorkSheet.Cells[rowNumber, "H"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
-            myExcelWorkSheet.Cells[rowNumber, "H"] = SubCodes;
+            myExcelWorkSheet.Cells[rowNumber, "H"] = LeftECTS;
 
             myExcelWorkSheet.Cells[rowNumber, "I"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
-            myExcelWorkSheet.Cells[rowNumber, "I"] = Ects;
+            myExcelWorkSheet.Cells[rowNumber, "I"] = SubCodes;
+
+            myExcelWorkSheet.Cells[rowNumber, "J"].Interior.Color = Excel.XlRgbColor.rgbAliceBlue;
+            myExcelWorkSheet.Cells[rowNumber, "J"] = Ects;
             rowNumber++;  // if you put this method inside a loop, you should increase rownumber by one or wat ever is your logic
 
         }
@@ -122,7 +125,7 @@ namespace Student_Registration.Controllers
         }
 
         [HttpPost]
-        public ActionResult AcceptSubjects(List<int> subjE, MultiLists ScId)
+        public ActionResult AcceptSubjects(List<int> subjE, MultiLists ScId, MultiLists LastSemECTS)
         {
 
             List<Subject> subs = new List<Subject>();
@@ -159,12 +162,12 @@ namespace Student_Registration.Controllers
                 }
                 reader.Close();
             }
-
             MultiLists ML = new MultiLists
             {
                 Subject_List = subs,
                 Sel_ECTS = ects_cnt,
-                St_ScId = ScId.St_ScId
+                St_ScId = ScId.St_ScId,
+                LastSem_ECTS = LastSemECTS.LastSem_ECTS
             };
             return View(ML);
         }
@@ -176,7 +179,7 @@ namespace Student_Registration.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConfirmUpdate(List<int> sbe, MultiLists ScId)
+        public ActionResult ConfirmUpdate(List<int> sbe, MultiLists ScId, MultiLists LastSemECTS)
         {
             
             List<Subject> excel_subjects = new List<Subject>();
@@ -261,7 +264,7 @@ namespace Student_Registration.Controllers
             int AfterAdd = st.TotEcts + TotSubEcts + st.TransfECTS;
             int LeftECTS = 240 - AfterAdd;
             this.addDataToExcel(st.Name, st.Surname, Convert.ToString(st.RegNum), Convert.ToString(st.TransfECTS), Convert.ToString(st.TotEcts),
-            Convert.ToString(AfterAdd), Convert.ToString(LeftECTS), subCodes, Convert.ToString(TotSubEcts));
+            Convert.ToString(LastSemECTS.LastSem_ECTS), Convert.ToString(AfterAdd), Convert.ToString(LeftECTS), subCodes, Convert.ToString(TotSubEcts));
             this.closeExcel();
 
             return new HttpStatusCodeResult(204);

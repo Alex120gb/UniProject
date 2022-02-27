@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     
     if ($("#lastGpa").text() <= 6 && $("#lastGpa").text() >= 5) {
         $("#sbj_selct").prop('disabled', true);
-        $("#GPAWarning").text("Warning: Last semester GPA is less than 7.5! Recommended ECTS for current semester is 25!");
+        $("#GPAWarning").text("Warning: Last semester GPA is less than 6! Recommended ECTS for current semester is 25!");
     }
 
     if ($("#lastGpa").text() < 5) {
