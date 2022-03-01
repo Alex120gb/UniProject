@@ -27,12 +27,6 @@ namespace Student_Registration.Controllers
                     ML.St_Fullname = reader[1].ToString() + reader[2].ToString();
                     ML.St_regNum = reader[3].ToString();
                     ML.Course = reader[5].ToString();
-                    //Session["st_name"] = reader[1].ToString();
-                    //Session["st_surname"] = reader[2].ToString();
-                    //Session["st_regNum"] = reader[3].ToString();
-                    //Session["st_id"] = Convert.ToInt32(reader[0]);
-                    //Session["course"] = reader[5].ToString();
-                    //Session["st_ScId"] = Convert.ToInt32(reader[6]);
                 }
 
                 reader.Close();

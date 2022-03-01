@@ -10,7 +10,6 @@ namespace Student_Registration.Controllers
     {
         public ActionResult RegisterSubjects(int stud)
         {
-            // Count ECTS
             MultiLists ML = new MultiLists();
             using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=student_registration;port=3306;password='';SslMode=none;"))
             {
